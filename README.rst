@@ -4,7 +4,7 @@ Clipp
 
 | **Latest Version:** 0.0.1
 | **Status:** Unstable, active development
-
+|
 
 Clipp is a POSIX-compliant, CLI parser library for building CLI interfaces,
 designed to be flexible, intelligent, and uncompormisingly simple. The
@@ -193,3 +193,7 @@ In the example above, we invoke '--mod' but do not provide an argument. Since
 we explicitly passed ``const`` as an argument when adding the option, the value
 of ``const`` is used as the option's argument, and we are able to compute the
 sum mod ``const``.
+
+License
+=======
+GNU General Public License, version 3
