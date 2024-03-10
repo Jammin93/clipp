@@ -1,8 +1,3 @@
-"""
-A POSIX-compliant, CLI parser library for building CLI interfaces, designed
-to be flexible, intelligent and uncompromisingly simple. Clipp aims to make
-code more reusable and easily scalable, without compromising performance.
-"""
 # mypy: disable-error-code="var-annotated"
 from __future__ import annotations
 
@@ -12,7 +7,7 @@ import sys
 import textwrap
 
 from collections import ChainMap, deque, namedtuple
-from functools import cached_property, partial
+from functools import cached_property, partial, partialmethod
 from itertools import chain
 from shutil import get_terminal_size
 from typing import Any, Callable, Optional, Sequence
@@ -1779,6 +1774,9 @@ class Command(OptionGroup):
 
         return processed
 
+    _postprocess_locals = partialmethod(_postprocess, is_global=False)
+    _postprocess_globals = partialmethod(_postprocess, is_global=True)
+
     def parse(self, arguments: Optional[list[str]] = None) -> Namespace:
         if arguments is None:
             arguments = sys.argv[1:]
@@ -1790,8 +1788,8 @@ class Command(OptionGroup):
             parser = Parser(cmd)
             processed, unconsumed = parser.parse(args)
             child = cmd._get_local_namespace()
-            child.update(cmd._postprocess(processed.locals, is_global=False))
-            gns.update(cmd._postprocess(processed.globals, is_global=True))
+            child.update(cmd._postprocess_locals(processed.locals))
+            gns.update(cmd._postprocess_globals(processed.globals))
             lns[cmd._nsid] = child
             extra.extend(unconsumed)
 
