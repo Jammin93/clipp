@@ -37,7 +37,6 @@ Member = namedtuple("Member", "name value")
 Namespace = namedtuple("Namespace", "globals locals extra")
 ParsedArguments = namedtuple("ParsedArguments", "globals locals")
 
-
 ESC = "--"
 INF = float("inf")
 EAGER_OPS = "*+"
@@ -2138,7 +2137,7 @@ class Parser:
 
         return stack
 
-    def parse(self, arguments: deque[str]) -> tuple:
+    def parse(self, arguments: deque[str]) -> tuple[ParsedArguments, list]:
         options = self.command._opts
         lopts = {} # Local option namespace.
         gopts = {} # Global option namespace.
