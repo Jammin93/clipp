@@ -2,7 +2,7 @@
 Clipp
 #####
 
-| **Latest Version:** 0.0.1
+| **Latest Version:** 0.2.0
 | **Status:** Unstable, active development
 |
 
@@ -126,7 +126,7 @@ In this case, we can see that the computed value for the positional option
 'integer' was mapped to its destination key (defined by ``dest``) which
 is'value'. Options which were defined but not encountered by the parser will
 not appear in the namespace unless they are provided a default value. Thus,
-we can use membership testing to determine whether a spcific command or 
+we can use membership testing to determine whether a spcific command or
 option was invoked at the command-line or otherwise received its default value.
 
 Surely, most utilities will be more complex than the utility we have created
