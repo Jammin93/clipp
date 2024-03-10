@@ -26,7 +26,7 @@ Features
 - Supports standard option escaping with double-dash (--) out of the box.
 - Allows the dash character (-) to be used as a valid option alias or
   positional option name
-- Supports sub-commands as well as nested sub-commands with the need for
+- Supports sub-commands as well as nested sub-commands without the need for
   directly instantiating additional objects.
 - Automatic help and usage formatting for top-level commands as well as
   sub-commands.
@@ -94,7 +94,7 @@ option to the command's parse method.
 
 The default help option is an example of a fast flag. When the parser
 encounters an argument token which represents a valid alias for any of its
-defined fast flags, it calls that flags callback function and then forces the
+defined fast flags, it calls that flag's callback function and then forces the
 script to terminate. By default, the help option's callback function prints
 the command's help message to the terminal.
 
@@ -118,16 +118,16 @@ three fields: ``globals``, ``locals``, and ``extra``. The ``globals`` field
 contains all options which are global and are therefore recognized by all
 commands in the command hierarchy (a topic we'll touch on shortly). The
 ``locals`` field is a dictionary containing each of the commands encountered
-by the parser and ``extra`` is a list of all positional arguments which were
+by the parser, and ``extra`` is a list of all positional arguments which were
 not consumed by the parser. Each of the nested dictionaries in ``locals``
 contains that command's options and thier corresponding values.
 
 In this case, we can see that the computed value for the positional option
-'integer' was mapped to its destination (defined by ``dest``) 'value'.
-Options which were defined but not encountered by the parser will not appear
-in the namespace unless the options was provided a default value. Thus, we
-can use membership testing to determine whether a spcific command or option
-was invoked at the command-line or otherwise received its default value.
+'integer' was mapped to its destination key (defined by ``dest``) which
+is'value'. Options which were defined but not encountered by the parser will
+not appear in the namespace unless they are provided a default value. Thus,
+we can use membership testing to determine whether a spcific command or 
+option was invoked at the command-line or otherwise received its default value.
 
 Surely, most utilities will be more complex than the utility we have created
 thus far. Perhaps we wish to allow the user of our utility to perform further
