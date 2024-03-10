@@ -5,6 +5,7 @@ Clipp
 | **Latest Version:** 0.0.1
 | **Status:** Unstable, active development
 
+
 Clipp is a POSIX-compliant, CLI parser library for building CLI interfaces,
 designed to be flexible, intelligent, and uncompormisingly simple. The
 package is similar to argparse but aims to be more intuitive and less
