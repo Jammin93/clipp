@@ -11,6 +11,8 @@ documentation root, use os.path.abspath to make it absolute, like shown here.
 import os.path
 import sys
 
+from clipp import __version__
+
 sys.path.insert(0, os.path.abspath("../"))
 sys.path.insert(0, os.path.abspath("../clipp"))
 
@@ -18,6 +20,7 @@ sys.path.insert(0, os.path.abspath("../clipp"))
 project = "Clipp"
 copyright = '2024, Ben Ohling'
 author = 'Ben Ohling'
+version = __version__
 
 # -- General configuration ---------------------------------------------------
 # Add any Sphinx extension module names here, as strings. They can be
