@@ -4,10 +4,14 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "clipp"
-license = {text = "GNU General Public License, Version 3"}
-description = """A POSIX-compliant CLI parser."""
+authors = [{name = "Ben Ohling"}]
+license = {file = "LICENSE"}
+description = "A POSIX-compliant CLI parser."
 requires-python = ">=3.11"
 dynamic = ["version", "readme"]
+
+[project.optional-dependencies]
+dev = ["pydata-sphinx-theme", "pytest", "sphinx"]
 
 [tool.setuptools]
 packages = ["clipp"]
