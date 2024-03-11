@@ -1,6 +1,7 @@
-﻿#####
+#####
 Clipp
 #####
+
 
 | **Latest Version:** 0.2.0
 | **Status:** Unstable, active development
