@@ -55,7 +55,7 @@ Clipp refers to positional options as parameters rather than options because use
 
 .. admonition:: **Note**
 
-   Throughout this documentation, whenever differentiating between options and parameters is not important, the term option is used as a more general term to refer to either an option or a parameter.
+   Throughout this documentation, whenever differentiation between options and parameters is not important, the term option will be used as a more general term to refer to either an option or a parameter. In cases where a distinction should be made, paramters will be referred to by their formal name.
 
 The parameter we have defined above tells the parser to consume a list of strings representing integer values, convert those values to type ``int``, compute the sum of those values, and map the computed sum to the key "value" in the namespace object which the parser returns. Let's get familiar with how to parse arguments by supplying one of the aliases for the default help option to our command's ``parse`` method.
 
@@ -63,7 +63,7 @@ The parameter we have defined above tells the parser to consume a list of string
 
    command.parse(["--help"])
 
-.. code-block::
+.. code:: console
 
    Usage: sum <integer>... [--help]
 
@@ -86,7 +86,7 @@ Now that we understand our command's syntax, let's sum a few integers.
    processed = command.parse(["1", "2", "3"])
    print(processed)
 
-.. code-block::
+.. code:: console
 
    Namespace(globals={}, locals={'sum': {'value': 6}}, extra=[])
 
@@ -105,7 +105,7 @@ Surely, most utilities will be more complex than the utility we have created thu
    )
    print(command.format_help())
 
-.. code-block::
+.. code:: console
 
    Usage: sum <integer>... [--help] [--mod=<arg>]
 
@@ -129,7 +129,7 @@ Surely, most utilities will be more complex than the utility we have created thu
     result = compute_result(processed.locals["sum"])
     print("Result:", result)
 
-.. code-block::
+.. code:: console
 
    Result: 19
 
@@ -143,7 +143,7 @@ Now that we have tested the case in which "--mod" was NOT invoked, we can test o
    result = compute_result(processed.locals["sum"])
    print("Result:", result)
 
-.. code-block::
+.. code:: console
 
    Result: 1
 
@@ -179,15 +179,50 @@ A good use-case for the ``default`` argument is a flag. Flag options always have
    result = compute_result(processed.locals["sum"])
    print("Result:", result)
 
-.. code-block::
+.. code:: console
 
    Result: 0x13
 
-Notice that the values above are boolean values. Clipp has a convenience method boolean flags which only requires that we supply ``const``.
+Notice that the values above are boolean values. Clipp has a convenience method for boolean flags which only requires that we supply ``const``.
 
 .. code:: python
 
    command.add_boolean_flag("--hex", const=True)
+
+What about the concept of choice options, you may ask? Like argparse, supplying choices to options is supported. For example, we can turn our "--hex" flag into a choice option.
+
+.. code:: python
+
+   command.add_option("--format", choices=["int", "hex", "bin"], const="int")
+
+   def compute_result(namespace: dict) -> int:
+      value = namespace["value"]
+      if "--mod" in namespace:
+         value = value % namesapce["--mod"]
+
+      fmt = namespace["--format"]
+      if fmt == "hex":
+         value = hex(value)
+      elif fmt == "bin":
+         value = bin(value)
+
+      return value
+
+   processed = command.parse(["3", "7", "9", "--fomrat=bin"])
+   result = compute_result(processed.locals["sum"])
+   print("Result:", result)
+
+.. code:: console
+
+   Result: 0b10011
+
+.. code:: python
+
+   processed = command.parse(["3", "7", "9", "--format=decimal"])
+
+.. code:: console
+
+   ERROR: invalid argument 'decimal' supplied to option '--format'
 
 License
 =======
