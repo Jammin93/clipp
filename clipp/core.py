@@ -31,7 +31,7 @@ from clipp.utils import (
 # For type hints. Use `cached_property` if the attribute is not callable.
 cached_callable: Callable = cached_property
 
-__all__ = ["Command", "OptionGroup", "NULL"]
+__all__ = ["Command", "OptionGroup"]
 
 Member = namedtuple("Member", "name value")
 Namespace = namedtuple("Namespace", "globals locals extra")
@@ -153,27 +153,6 @@ def get_properties(obj: Any) -> list[Member]:
     """
     from inspect import getmembers
     return [Member(*t) for t in getmembers(obj, is_property)]
-
-
-class NullType:
-    """Singleton substitute for `NoneType` objects."""
-    _instance = None
-
-    def __new__(cls):
-        if not isinstance(cls._instance, cls):
-            cls._instance = object.__new__(cls)
-
-        return cls._instance
-
-    def __bool__(self):
-        return False
-
-    def __repr__(self):
-        return "NULL"
-
-
-# Singleton used as a substitute for `None`.
-NULL = NullType()
 
 
 class RelationalIntegrityError(Exception):
@@ -327,8 +306,8 @@ class Option:
             dest: str = "",
             quota: int | str = 1,
             choices: Sequence[str] = tuple(),
-            default: Any = NULL,
-            const: Any = NULL,
+            default: Any = None,
+            const: Any = None,
             dtype: Optional[Callable] = None,
             action: Optional[Callable] = None,
             help: str = "",
@@ -341,10 +320,10 @@ class Option:
             raise ValueError(err_msg % ("choices", quota))
 
         if not self._supports_defaults(quota):
-            if const is not NULL:
+            if const is not None:
                 raise ValueError(err_msg % ("const", quota))
 
-            if default is not NULL:
+            if default is not None:
                 raise ValueError(err_msg % ("default", quota))
 
         self.aliases = unique_sort(aliases)
@@ -385,7 +364,7 @@ class Option:
         return quota == "*" or isinstance(quota, int) and quota <= 1
 
     def _get_effective_value(self, value: Any) -> None:
-        if value is NULL:
+        if value is None:
             # A zero-or-more profile assumes that any number of values is
             # acceptable. In this case, it is not considered an error if the
             # parser does not consume any values, but the only logical
@@ -437,13 +416,13 @@ class Option:
 
     @property
     def has_default(self) -> bool:
-        """Whether the option has a default value which is not `NULL`."""
-        return self.default is not NULL
+        """Whether the option has a default value which is not `None`."""
+        return self.default is not None
 
     @property
     def has_const(self) -> bool:
-        """Whether the option has a constant value which is not `NULL`."""
-        return self.const is not NULL
+        """Whether the option has a constant value which is not `None`."""
+        return self.const is not None
 
     @cached_callable
     def dtype(self) -> Callable:
@@ -592,7 +571,7 @@ class Parameter(Option):
             dest: str = "",
             quota: int | str = 1,
             choices: Sequence[str] = tuple(),
-            default: Any = NULL,
+            default: Any = None,
             dtype: Optional[Callable] = None,
             action: Optional[Callable] = None,
             help: str = "",
@@ -720,8 +699,8 @@ class OptionGroup:
             dest: str = "",
             quota: int | str = 1,
             choices: Sequence[str] = tuple(),
-            default: Any = NULL,
-            const: Any = NULL,
+            default: Any = None,
+            const: Any = None,
             dtype: Optional[Callable] = None,
             action: Optional[Callable] = None,
             help: str = "",
@@ -820,7 +799,7 @@ class OptionGroup:
             self,
             *aliases: str,
             dest: str = "",
-            default: Any = NULL,
+            default: Any = None,
             const: Any,
             help: str = "",
             usage: str = "",
@@ -1337,7 +1316,7 @@ class Command(OptionGroup):
             dest: str = "",
             quota: int | str = 1,
             choices: Sequence[str] = tuple(),
-            default: Any = NULL,
+            default: Any = None,
             dtype: Optional[Callable] = None,
             action: Optional[Callable] = None,
             help: str = "",
@@ -1830,8 +1809,8 @@ class Subcommand(Command):
             dest: str = "",
             quota: int | str = 1,
             choices: Sequence[str] = tuple(),
-            default: Any = NULL,
-            const: Any = NULL,
+            default: Any = None,
+            const: Any = None,
             dtype: Optional[Callable] = None,
             action: Optional[Callable] = None,
             help: str = "",
@@ -1925,7 +1904,7 @@ class Subcommand(Command):
             self,
             *aliases: str,
             dest: str = "",
-            default: Any = NULL,
+            default: Any = None,
             const: Any,
             help: str = "",
             usage: str = "",

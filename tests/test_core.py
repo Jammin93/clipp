@@ -182,14 +182,14 @@ class TestOption:
 
     @pytest.mark.parametrize("quota, value, expected",
         (["+", 10, 10],
-         ["+", core.NULL, core.NULL],
-         ["*", core.NULL, []],
+         ["+", None, None],
+         ["*", None, []],
          ["*", 10, 10], [1, 10, 10],
-         [1, core.NULL, core.NULL]))
+         [1, None, None]))
     def test__get_effective_value(self, quota, value, expected, option):
         """
         Ensure that the correct value is returned for the specified quota.
-        If no value supplied is `NULL`, the return value will be `NULL`, unless
+        If no value supplied is `None`, the return value will be `None`, unless
         the quota is zero-or-more (*). In all other cases, the value returned
         should be the value supplied.
         """
