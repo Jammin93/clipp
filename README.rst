@@ -120,9 +120,6 @@ Surely, most utilities will be more complex than the utility we have created thu
 .. code:: python
 
     def compute_result(namespace: dict) -> int:
-         """Compute and return `value` mod N if modulus supplied, else return
-         `value`.
-         """
          value = namespace["value"]
          if "--mod" in namespace:
              return value % namespace["--mod"]
@@ -136,7 +133,7 @@ Surely, most utilities will be more complex than the utility we have created thu
 
    Result: 19
 
-In the body of the function ``compute_result``, we do not perform a membership test for ``value``. This is because options with zero-or-more quotas default to an empty list when no default value is explicitly provided. Since ``--mod`` was not invoked, it did not appear in the ``locals`` dictionary under the sum command, so we return the value without computing the modulus. When the ``add_option`` or ``add_parameter`` methods are called without explicitly passing ``quota`` as an argumnet, the option's quota defaults to 1. Notice also that we did not need to test for the existance of "sum" in the namespace. This is because ``sum`` is our top-level command and, thus, it will always appear under ``locals``, even when no options or parameters are provided.
+In the body of the function ``compute_result``, we do not perform a membership test for ``value``. This is because options with zero-or-more quotas default to an empty list when no default value is explicitly provided. Since ``--mod`` was not invoked, it did not appear in the ``locals`` dictionary under the sum command, so we return the value without computing the modulus. When the ``add_option`` or ``add_parameter`` methods are called without explicitly passing ``quota`` as an argumnet, the option's quota defaults to 1 (flags are an exception). Notice also that we did not need to test for the existance of "sum" in the namespace. This is because ``sum`` is our top-level command and, thus, it will always appear under ``locals``, even when no options or parameters are provided.
 
 Now that we have tested the case in which "--mod" was NOT invoked, we can test our command again, this time supplying the "--mod" option.
 
@@ -150,16 +147,47 @@ Now that we have tested the case in which "--mod" was NOT invoked, we can test o
 
    Result: 1
 
-In the example above, we invoke "--mod" but do not provide an argument. Since we explicitly passed ``const`` as an argument when adding the option, the value of ``const`` is substituted for the missing argument, and we are able to compute the modulus of the sum. The ``const`` argument is the value used by the parser when an option IS supplied but no arguments are received. Mirroring the ``const`` argument is ``default``, which represents the value used by the parser when an option is NOT encountered at the command-line. Whether or not an option supports a default or constant value is ultimately determined by the option's quota.
+In the example above, we invoke "--mod" but do not provide an argument. Since we explicitly passed ``const`` as an argument when adding the option, the value of ``const`` is substituted for the missing argument, and we are able to compute the modulus of the sum. The ``const`` argument is the value used by the parser when an option IS supplied but no arguments are received. Mirroring the ``const`` argument is ``default``, which represents the value used by the parser when an option is NOT encountered at the command-line. Whether an option supports a ``default`` or ``constant`` value is ultimately determined by the option's ``quota``.
 
 The ``default`` and ``const`` arguments are NOT supported in the following cases:
 
 - The option is part of a mutually exclusive group.
-- The option's quota implies that the parser should be expected to consume one, **or more**, argument tokens (i.e. ``quota`` > 1 or ``quota`` == ``*``). For parameters specifically, ``default`` and ``const`` are only supported for zero-or-more quotas (``*``).
+- The option's ``quota`` implies that the parser should be expected to consume one, **or more**, argument tokens (i.e. ``quota`` > 1 or ``quota`` == ``*``). For parameters, ``default`` and ``const`` are only supported for zero-or-more quotas (``*``).
 
 .. admonition:: **Note**
 
-   Defaults are considered ambiguous for mutually exclusive options because there is no rule which would allow the parser to determine the "correct" option and corresponding default to add to the namespace when the none of the mutually exclusive options are encountered. In such a case, there is no right or wrong choice. The parser is restricted from making arbitrary decisions on behalf of the user.
+   Defaults are considered ambiguous for mutually exclusive options because there is no rule which would allow the parser to determine the "correct" option and corresponding default to add to the namespace when none of the mutually exclusive options are encountered. In such a case, there is no right or wrong choice. The parser is restricted from making arbitrary decisions on behalf of the user, forcing the developer to ensure that their utility is non-ambiguous. Where argparse encourages such design, clipp tries to enforce it. Though this may seem somewhat dictatorial in nature, it helps developers by making them more aware of possible edge cases which can be so common for POSIX-compliant utilities.
+
+Thus far, we've discussed options with defaults but have not utilized defaults. Let's add an option with a default value.
+
+A good use-case for the ``default`` argument is a flag. Flag options always have a ``quota`` of zero and therefore do not expect any arguments from the command-line. Their possible values are predetermined by the ``default`` and ``const`` arguments supplied to the ``add_flag`` method.
+
+.. code:: python
+
+   command.add_flag("--hex", const=True, default=False)
+
+   def compute_result(namespace: dict) -> int:
+      value = namespace["value"]
+      if "--mod" in namespace:
+         value = value % namespace["--mod"]
+
+      if namespace["--hex"]:
+            value = hex(value)
+      return value
+
+   processed = command.parse(["3", "7", "9", "--hex")
+   result = compute_result(processed.locals["sum"])
+   print("Result:", result)
+
+.. code-block::
+
+   Result: 0x13
+
+Notice that the values above are boolean values. Clipp has a convenience method boolean flags which only requires that we supply ``const``.
+
+.. code:: python
+
+   command.add_boolean_flag("--hex", const=True)
 
 License
 =======
