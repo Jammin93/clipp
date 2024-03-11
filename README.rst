@@ -1,4 +1,4 @@
-#####
+﻿#####
 Clipp
 #####
 
@@ -53,7 +53,7 @@ Adding options is just as easy. Let's add a positional option to our command.
 
 Clipp refers to positional options as parameters rather than options because users are typically required to supply arguments to positional options. They are, therefore, not typically optional. The asterisk (``*``) supplied above is a greedy operator which represents a "zero-or-more" quota and is one exception to this rule. Parameters with zero-or-more quotas are technically optional because the parser is allowed to consume zero arguments. By contrast, the other greedy operator which may be supplied as the ``quota`` argument is the plus character (``+``). It represents "one-or-more". Unlike parameters with zero-or-more quotas, parameters with quotas of one-or-more are not optional. 
 
-.. note::
+.. admonition:: **Note**
 
    Throughout this documentation, whenever differentiating between options and parameters is not important, the term option is used as a more general term to refer to either an option or a parameter.
 
@@ -157,7 +157,7 @@ The ``default`` and ``const`` arguments are NOT supported in the following cases
 - The option is part of a mutually exclusive group.
 - The option's quota implies that the parser should be expected to consume one, **or more**, argument tokens (i.e. ``quota`` > 1 or ``quota`` == ``*``). For parameters specifically, ``default`` and ``const`` are only supported for zero-or-more quotas (``*``).
 
-.. note::
+.. admonition:: **Note**
 
    Defaults are considered ambiguous for mutually exclusive options because there is no rule which would allow the parser to determine the "correct" option and corresponding default to add to the namespace when the none of the mutually exclusive options are encountered. In such a case, there is no right or wrong choice. The parser is restricted from making arbitrary decisions on behalf of the user.
 
