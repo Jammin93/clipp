@@ -1,3 +1,6 @@
+"""Strip all "+SKIP" directives from readme-doctest.rst."""
+
+
 def main():
     with open("readme-doctest.rst", "r") as f:
         lines = [ln.replace("\n", "") for ln in f.readlines()]
