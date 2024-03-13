@@ -26,7 +26,7 @@ Clipp is a POSIX-compliant, CLI parser library for building command-line interfa
 Documentation
 =============
 
-Up-to-date API documentation can be found here: `<https://jammin93.github.io/clipp/>`
+Up-to-date API documentation can be found here: `<https://jammin93.github.io/clipp/>`_
 
 Features
 ========
