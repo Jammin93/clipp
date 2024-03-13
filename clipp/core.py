@@ -1413,7 +1413,7 @@ class Command(OptionGroup):
     def _check_options(self, value: Option) -> None:
         for key in value.aliases:
             if key in self._params or key in self._opts:
-                raise KeyError(f"option '{value.name}' already exists")
+                raise KeyError(f"option alias '{key}' already exists")
 
     def remove(self, option_name: str) -> None:
         """
