@@ -8,9 +8,13 @@ Clipp
 
 	<br />
 
-| **Latest Version:** 0.2.0
-| **Status:** Unstable, active development
-|br|
+.. The shorthand for line blocks doesn't render properly on github, so we are forced to use the line-block directive.
+
+.. line-block::
+
+	**Latest Version:** 0.2.0
+	**Status:** Unstable, active development
+
 Clipp is a POSIX-compliant, CLI parser library for building command-line interfaces, designed to be flexible, intelligent, and uncompromisingly simple. The package is similar to argparse but aims to be more intuitive and less cumbersome. Clipp allows for greater code re-use than argparse and is much more scalable. In terms of parser latency, clipp typically outperforms argparse. Though clipp is much more minimalist than argparse, its API has most of the features you would expect to find in a command-line parsing library.
 
 Features
@@ -32,30 +36,26 @@ Quickstart
 
 Let's start by creating a file called **sum.py**, which we will use to sum a sequence of numeric values.
 
-.. admonition:: **sum.py**
+.. code:: python
 
-	.. code:: python
+	from clipp import Command
 
-		from clipp import Command
-
-		command = Command()
+	command = Command()
 
 By default, the name of the command is the name of the script which defines the command object. Adding options to the command is easy. For those familiar with argparse, some of the code below should seem familiar.
 
-.. admonition:: **sum.py**
+.. code:: python
 
-	.. code:: python
+	...
 
-		...
-
-		command.add_parameter(
-			"integer",
-			quota="*",
-			dtype=int,
-			action=sum,
-			dest="value",
-			help="An integer value.",
-		)
+	command.add_parameter(
+		"integer",
+		quota="*",
+		dtype=int,
+		action=sum,
+		dest="value",
+		help="An integer value.",
+	)
 
 Clipp refers to positional options as parameters rather than options because users are typically required to supply arguments to positional options. They are, therefore, not *typically* optional. The asterisk (``*``) supplied above is a greedy operator which represents a "zero-or-more" quota and is one exception to this rule. Parameters with zero-or-more quotas are technically optional because the parser is permitted to consume zero arguments. By contrast, the other greedy operator which may be supplied as the ``quota`` is the plus character (``+``). It represents "one-or-more". Unlike parameters with zero-or-more quotas, parameters with quotas of one-or-more are not optional.
 
@@ -67,46 +67,38 @@ The parameter we have defined above accomplishes a few things: it tells the pars
 
 Let's get familiar with how to parse arguments from the command-line.
 
-.. admonition:: **sum.py**
+.. code:: python
 
-	.. code:: python
+	...
 
-		...
+	if __name__ == "__main__":
+		processed = command.parse()
 
-		if __name__ == "__main__":
-			processed = command.parse()
+.. code:: console
 
-.. admonition:: **bash**
+	$ python3 -m sum --help
+	Usage: sum <integer>... [--help]
 
-	.. code:: console
+	Positional Arguments:
+	integer                An integer value.
 
-		$ python3 -m sum --help
-		Usage: sum <integer>... [--help]
-
-		Positional Arguments:
-		integer                An integer value.
-
-		Options:
-		--help, -h            Display this help message.
+	Options:
+	--help, -h            Display this help message.
 
 The default help option is an example of a fast flag. When the parser encounters an argument token which represents a valid alias for any of its fast flags, it calls the corresponding flag's callback function and then forces the script to terminate with an exit code of zero. By default, the help option's callback function prints the command's help message to the terminal.
 
 Now that we have a better understanding of our command's syntax, let's add a line for output to our utility and then have a go at summing a few integers.
 
-.. admonition:: **sum.py**
+.. code:: python
 
-	.. code:: python
+	...
 
-		...
+	print(processed)
 
-		print(processed)
+.. code:: console
 
-.. admonition:: **bash**
-
-	.. code:: console
-
-		$ python3 -m sum 1 2 3
-		Namespace(globals={}, locals={'sum': {'value': 6}}, extra=[])
+	$ python3 -m sum 1 2 3
+	Namespace(globals={}, locals={'sum': {'value': 6}}, extra=[])
 
 The namespace object returned by the parser is a ``namedtuple`` which has three fields: ``globals``, ``locals``, and ``extra``. The ``globals`` field contains all options which are global and are therefore recognized by all commands in the command hierarchy. The ``locals`` field is a dictionary containing each of the commands encountered by the parser, and ``extra`` is a list of all positional arguments which were not consumed by the parser. Each of the nested dictionaries in ``locals`` contains that command's options, mapped to their corresponding values.
 
@@ -114,39 +106,35 @@ In this case, we can see that the computed value for the parameter "integer" was
 
 Surely, most utilities will be more feature-rich than the utility we have written. Let's add some more functionality to our utility.
 
-.. admonition:: **sum.py**
+.. code:: python
 
-	.. code:: python
+	...
 
-		...
+	command.add_option(
+		"--mod", "-m",
+		dtype=int,
+		const=2,
+		help="Compute the sum mod N, where N is a valid integer.",
+	)
 
-		command.add_option(
-			"--mod", "-m",
-			dtype=int,
-			const=2,
-			help="Compute the sum mod N, where N is a valid integer.",
-		)
+	if __name__ == "__main__":
+		processed = command.parse()
+		print(processed)
 
-		if __name__ == "__main__":
-			processed = command.parse()
-			print(processed)
+.. code:: console
 
-.. admonition:: **bash**
+	$ python3 -m sum --help
+	Usage: sum <integer>... [--help] [--mod=<arg>]
 
-	.. code:: console
+	Positional Arguments:
+	integer                An integer value.
 
-		$ python3 -m sum --help
-		Usage: sum <integer>... [--help] [--mod=<arg>]
-
-		Positional Arguments:
-		integer                An integer value.
-
-		Options:
-		--help, -h            Display this help message.
-		--mod, -m             Compute the sum mod N, where N is a valid
-		                      integer.
-		$ python3 -m sum 1 2 3 --mod
-		Namespace(globals={}, locals={'sum': {'value': 6, '--mod': 2}}, extra=[])
+	Options:
+	--help, -h            Display this help message.
+	--mod, -m             Compute the sum mod N, where N is a valid
+	                      integer.
+	$ python3 -m sum 1 2 3 --mod
+	Namespace(globals={}, locals={'sum': {'value': 6, '--mod': 2}}, extra=[])
 
 
 In the bash example above, we see that "--mod" now appears in the locals dictionary under "sum" (our command). Since no argument was supplied to "--mod", its value is equal to that of the ``const`` argument which we passed in the ``add_option`` method. The value of ``const`` is the value used by the parser when an option IS encountered but no arguments are received. Mirroring the ``const`` argument is ``default`` which represents the value used by the parser whenever an option is NOT encountered at the command-line. Whether an option supports ``default`` or ``const`` is ultimately determined by its quota.
@@ -159,122 +147,106 @@ In the bash example above, we see that "--mod" now appears in the locals diction
 
 A good use-case for an option which utilizes a default is a flag. Flags always have a ``quota`` of zero and therefore do not expect any arguments. Their possible values are predetermined by ``const`` and ``default``.
 
-.. admonition:: **sum.py**
+.. code:: python
 
-	.. code:: python
+	...
 
-		...
+	command.add_flag(
+		"--hexify",
+		const=True,
+		default=False,
+		help="Convert the result to hexidecimal".,
+	)
 
-		command.add_flag(
-			"--hexify",
-			const=True,
-			default=False,
-			help="Convert the result to hexidecimal".,
-		)
+	if __name__ == "__main__":
+		processed = command.parse()
+		print(processed)
 
-		if __name__ == "__main__":
-			processed = command.parse()
-			print(processed)
+.. code:: console
 
-.. admonition:: **bash**
-
-	.. code:: console
-
-		$ python3 -m sum 1 2 3 --hexify
-		Namespace(globals={}, locals={'sum': {'value': 6, '--hexify': True}}, extra=[])
+	$ python3 -m sum 1 2 3 --hexify
+	Namespace(globals={}, locals={'sum': {'value': 6, '--hexify': True}}, extra=[])
 
 Notice that the values used above are boolean values, and the flag we have added ultimately represents a binary option. Clipp has a convenience method for binary flags. Let's adjust the code above and use the ``add_binary_flag`` method instead.
 
-.. admonition:: **sum.py**
+.. code:: python
 
-	.. code:: python
+	...
 
-		...
+	command.add_binary_flag(
+		"--hexify",
+		help="Convert the result to hexidecimal.",
+	)
 
-		command.add_binary_flag(
-			"--hexify",
-			help="Convert the result to hexidecimal.",
-		)
+	...
 
-		...
+.. code:: console
 
-.. admonition:: **bash**
-
-	.. code:: console
-
-		$ python3 -m sum 1 2 3 --hexify
-		Namespace(globals={}, locals={'sum': {'value': 6, '--hexify': True}}, extra=[])
+	$ python3 -m sum 1 2 3 --hexify
+	Namespace(globals={}, locals={'sum': {'value': 6, '--hexify': True}}, extra=[])
 
 By default, the ``const`` argument of the method ``add_binary_flag`` is set to ``True``, and ``default`` is always the opposite of ``const``.
 
 A flag, however, may not be the best choice. Perhaps we want to allow users to select a particular result type. We can adjust the above code once more.
 
-.. admonition:: **sum.py**
+.. code:: python
 
-	.. code:: python
+	...
 
-		...
+	command.add_option(
+		"--result-type", "-t",
+		choices=["hex", "bin"],
+		help="Convert the result to either hexidecimal (hex) or binary (bin).",
+	)
 
-		command.add_option(
-			"--result-type", "-t",
-			choices=["hex", "bin"],
-			help="Convert the result to either hexidecimal (hex) or binary (bin).",
-		)
-
-		...
-
-.. admonition:: **bash**
+	...
 
 	.. code:: console
 
-		$ python3 -m --help
-		Usage: sum <integer>... [--help] [--mod=<arg>]
-                   [--result-type=<bin|hex>]
+	$ python3 -m --help
+	Usage: sum <integer>... [--help] [--mod=<arg>]
+               [--result-type=<bin|hex>]
 
-		Positional Arguments:
-		integer                An integer value.
+	Positional Arguments:
+	integer                An integer value.
 
-		Options:
-		--help, -h            Display this help message.
-		--mod, -m             Compute the sum mod N, where N is a valid
-		                      integer.
-		--result-type, -t     Convert the result to either hexidecimal (hex)
-		                      or binary (bin).
-		$ python3 -m 1 2 3 -t bin
-		Namespace(globals={}, locals={'sum': {'value': 6, '--result-type': 'bin'}}, extra=[])
+	Options:
+	--help, -h            Display this help message.
+	--mod, -m             Compute the sum mod N, where N is a valid
+	                      integer.
+	--result-type, -t     Convert the result to either hexidecimal (hex)
+	                      or binary (bin).
+	$ python3 -m 1 2 3 -t bin
+	Namespace(globals={}, locals={'sum': {'value': 6, '--result-type': 'bin'}}, extra=[])
 
 At this point, our utility isn't very useful for the end-user. We'll need to make our utility do what it claims if we want happy users.
 
-.. admonition:: **sum.py**
+.. code:: python
 
-	.. code:: python
+	def compute_result(options: dict) -> str:
+		value = options["value"]
+		if "--mod" in options:
+			value = value % options["--mod"]
 
-		def compute_result(options: dict) -> str:
-			value = options["value"]
-			if "--mod" in options:
-				value = value % options["--mod"]
+		if "--result-type" not in options:
+			value = str(value)
+		elif options["--result-type"] == "hex":
+			value = hex(value)
+		else:
+			value = bin(value)
 
-			if "--result-type" not in options:
-				value = str(value)
-			elif options["--result-type"] == "hex":
-				value = hex(value)
-			else:
-				value = bin(value)
+		return value
 
-			return value
+	if __name__ == "__main__":
+		processed = command.parse()
+		result = compute_result(processed.locals["sum"])
+		print(result)
 
-		if __name__ == "__main__":
-			processed = command.parse()
-			result = compute_result(processed.locals["sum"])
-			print(result)
+.. code:: console
 
-.. admonition:: **bash**
-
-	.. code:: console
-
-		$ python3 -m sum 3 7 9
-		19
-		$ python3 -m sum 3 7 9 --mod=4
-		3
-		$ python3 -m sum 3 7 9 -t bin
-		0b10011
+	$ python3 -m sum 3 7 9
+	19
+	$ python3 -m sum 3 7 9 --mod=4
+	3
+	$ python3 -m sum 3 7 9 -t bin
+	0b10011
