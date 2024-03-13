@@ -853,7 +853,7 @@ class OptionGroup:
         )
         self._add_option(opt)
 
-    def add_boolean_flag(
+    def add_binary_flag(
             self,
             *aliases,
             dest: str = "",
@@ -1953,7 +1953,7 @@ class Subcommand(Command):
         )
         self._add_option(opt)
 
-    def add_boolean_flag(
+    def add_binary_flag(
             self,
             *aliases,
             dest: str = "",
