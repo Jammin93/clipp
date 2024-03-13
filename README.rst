@@ -8,10 +8,18 @@ Clipp
 
 	<br />
 
-.. contents:: Table of Contents
+.. |hr| raw:: html
+
+	<hr />
 
 **Latest Version:** 0.2.0 |br|
 **Status:** Unstable, active development
+
+|hr|
+
+.. contents:: Table of Contents
+
+|hr|
 
 Clipp is a POSIX-compliant, CLI parser library for building command-line interfaces, designed to be flexible, intelligent, and uncompromisingly simple. The package is similar to argparse but aims to be more intuitive and less cumbersome. Clipp allows for greater code re-use than argparse and is much more scalable. In terms of parser latency, clipp typically outperforms argparse. Though clipp is much more minimalist than argparse, its API has most of the features you would expect to find in a command-line parsing library.
 
@@ -32,7 +40,7 @@ Features
 Quickstart
 ==========
 
-Let's start by creating a file called **sum.py**, which we will use to sum a sequence of numeric values.
+Let's start by creating a file called **sum.py**, which we will use to sum a sequence of integers.
 
 .. code:: python
 
@@ -40,7 +48,7 @@ Let's start by creating a file called **sum.py**, which we will use to sum a seq
 
 	command = Command()
 
-By default, the name of the command is the name of the script which defines the command object. Adding options to the command is easy. For those familiar with argparse, some of the code below should seem familiar.
+By default, the name of the command is the name of the script which defines the command object. Adding options to the command is easy. For those familiar with argparse, some of the code below should seem familiar. Nevertheless, although syntactically similar, clipp does not behave identically to argparse. For instance, the ``action`` argument seen below plays a much different role in clipp's API. It accepts a callable which is used for post-processing the argument tokens collected for that option. The ``dtype`` (data type) argument, by contrast, is clipp's equivalent of argparse's ``type`` argument, and serves the same purpose.
 
 .. code:: python
 
@@ -55,11 +63,15 @@ By default, the name of the command is the name of the script which defines the 
 		help="An integer value.",
 	)
 
-Clipp refers to positional options as parameters rather than options because users are typically required to supply arguments to positional options. They are, therefore, not *typically* optional. The asterisk (``*``) supplied above is a greedy operator which represents a "zero-or-more" quota and is one exception to this rule. Parameters with zero-or-more quotas are technically optional because the parser is permitted to consume zero arguments. By contrast, the other greedy operator which may be supplied as the ``quota`` is the plus character (``+``). It represents "one-or-more". Unlike parameters with zero-or-more quotas, parameters with quotas of one-or-more are not optional.
+Clipp refers to positional options as parameters rather than options because users are typically required to supply arguments to positional options. They are, therefore, not *typically* optional. The asterisk (``*``) supplied above is a greedy operator which represents a "zero-or-more" quota and is one exception to this rule. Parameters with zero-or-more quotas are technically optional because the parser is permitted to consume zero arguments. By contrast, the other greedy operator which may be supplied to ``quota`` is the plus character (``+``). It represents "one-or-more". Unlike parameters with zero-or-more quotas, parameters with quotas of one-or-more are not optional.
+
+|hr|
 
 .. admonition:: **Note**
 
 	Throughout this documentation, the term "option" will be used wherever differentiation between options and parameters is not critical. In cases where a distinction should be made, parameters will be referred to by their formal name.
+
+|hr|
 
 The parameter we have defined above accomplishes a few things: it tells the parser to consume a list of strings which are expected to represent integer values; convert those strings to type ``int``; compute the sum of those values; and map the sum to the key "value" in the namespace object which the parser returns.
 
@@ -98,9 +110,7 @@ Now that we have a better understanding of our command's syntax, let's add a lin
 	$ python3 -m sum 1 2 3
 	Namespace(globals={}, locals={'sum': {'value': 6}}, extra=[])
 
-The namespace object returned by the parser is a ``namedtuple`` which has three fields: ``globals``, ``locals``, and ``extra``. The ``globals`` field contains all options which are global and are therefore recognized by all commands in the command hierarchy. The ``locals`` field is a dictionary containing each of the commands encountered by the parser, and ``extra`` is a list of all positional arguments which were not consumed by the parser. Each of the nested dictionaries in ``locals`` contains that command's options, mapped to their corresponding values.
-
-In this case, we can see that the computed value for the parameter "integer" was mapped to its destination key (``dest``) which is "value".
+The namespace object returned by the parser is a ``namedtuple`` which has three fields: ``globals``, ``locals``, and ``extra``. The ``globals`` field contains all options which are global and are therefore recognized by all commands in the command hierarchy. The ``locals`` field is a dictionary containing each of the commands encountered by the parser, and ``extra`` is a list of all positional arguments which were not consumed by the parser. Each of the nested dictionaries in ``locals`` contains that command's options, mapped to their corresponding values. In this case, we can see that the computed value for the parameter "integer" was mapped to its destination key (``dest``) which is "value".
 
 Surely, most utilities will be more feature-rich than the utility we have written. Let's add some more functionality to our utility.
 
@@ -135,13 +145,17 @@ Surely, most utilities will be more feature-rich than the utility we have writte
 	Namespace(globals={}, locals={'sum': {'value': 6, '--mod': 2}}, extra=[])
 
 
-In the bash example above, we see that "--mod" now appears in the locals dictionary under "sum" (our command). Since no argument was supplied to "--mod", its value is equal to that of the ``const`` argument which we passed in the ``add_option`` method. The value of ``const`` is the value used by the parser when an option IS encountered but no arguments are received. Mirroring the ``const`` argument is ``default`` which represents the value used by the parser whenever an option is NOT encountered at the command-line. Whether an option supports ``default`` or ``const`` is ultimately determined by its quota.
+In the command-line example above, we see that "--mod" now appears in the locals dictionary under "sum" (our command). Since no argument was supplied to "--mod", its value is equal to that of the ``const`` argument which we passed in the ``add_option`` method. The value of ``const`` is the value used by the parser when an option IS encountered but no arguments are received. The counterpart to the ``const`` argument is ``default`` which represents the value used by the parser whenever an option is NOT encountered at the command-line. Whether an option supports ``default`` or ``const`` is ultimately determined by its quota.
+
+|hr|
 
 .. admonition:: **Note**
 
 	For non-positional options, ``default`` and ``const`` are NOT supported if the parser expects to consume one, **or more**, argument tokens (i.e. ``quota`` > 1 or ``quota`` == "+"). For parameters, ``default`` and ``const`` are **only** supported for zero-or-more quotas (*).
 
 	Additionally, ``default`` is not supported for options which are part of a mutually exclusive group. In such a case, defaults are considered ambiguous because there is no rule which would allow the parser to determine the "correct" option and corresponding default to add to the namespace when none of the mutually exclusive options are encountered at the command-line. The parser is restricted from making arbitrary decisions on behalf of the user.
+
+|hr|
 
 A good use-case for an option which utilizes a default is a flag. Flags always have a ``quota`` of zero and therefore do not expect any arguments. Their possible values are predetermined by ``const`` and ``default``.
 
