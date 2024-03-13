@@ -12,7 +12,7 @@ Clipp
 
 	<hr />
 
-**Latest Version:** 0.2.0 |br|
+**Latest Version:** 1.0.0 |br|
 **Status:** Unstable, active development
 
 |hr|
