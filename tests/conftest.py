@@ -77,7 +77,7 @@ def subcommand():
 @pytest.fixture(scope="function")
 def parser():
     command = core.Command("sum", version_info="1.0.0")
-    command.add_boolean_flag("--verbose", "-v", is_global=True)
+    command.add_binary_flag("--verbose", "-v", is_global=True)
     command.add_parameter(
         "integers",
         quota="*",
