@@ -213,7 +213,7 @@ A flag, however, may not be the best choice. Perhaps we want to allow users to s
 
 	...
 
-	.. code:: console
+.. code:: console
 
 	$ python3 -m --help
 	Usage: sum <integer>... [--help] [--mod=<arg>]
