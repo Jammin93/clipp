@@ -2,6 +2,8 @@
 Clipp
 #####
 
+.. contents:: Table of Contents
+
 .. |br| raw:: html
 
 	<br />
@@ -61,7 +63,7 @@ Clipp refers to positional options as parameters rather than options because use
 
 	Throughout this documentation, the term "option" will be used wherever differentiation between options and parameters is not critical. In cases where a distinction should be made, parameters will be referred to by their formal name.
 
-The parameter we have defined above accomplishes a few things: it tells the parser to consume a list of strings which are expected to represent integer values; convert those strings to type ``int``; compute the sum of those values; and map the sum to the key "value" in the namespace object which the parser returns. 
+The parameter we have defined above accomplishes a few things: it tells the parser to consume a list of strings which are expected to represent integer values; convert those strings to type ``int``; compute the sum of those values; and map the sum to the key "value" in the namespace object which the parser returns.
 
 Let's get familiar with how to parse arguments from the command-line.
 
@@ -227,7 +229,7 @@ A flag, however, may not be the best choice. Perhaps we want to allow users to s
 
 		$ python3 -m --help
 		Usage: sum <integer>... [--help] [--mod=<arg>]
-     			   [--result-type=<bin|hex>]
+                   [--result-type=<bin|hex>]
 
 		Positional Arguments:
 		integer                An integer value.
