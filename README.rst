@@ -236,7 +236,7 @@ A flag, however, may not be the best choice. Perhaps we want to allow users to s
 	$ python3 -m 1 2 3 -t bin
 	Namespace(globals={}, locals={'sum': {'value': 6, '--result-type': 'bin'}}, extra=[])
 
-At this point, our utility isn't very useful for the end-user. We'll need to make our utility do what it claims if we want happy users.
+At this point, our utility isn't very useful for the end-user. We'll need to make our utility does what it claims if we want happy users.
 
 .. code:: python
 
