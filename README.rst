@@ -95,7 +95,7 @@ Let's get familiar with how to parse arguments from the command-line.
 	Usage: sum <integer>... [--help]
 
 	Positional Arguments:
-	integer                An integer value.
+	integer               An integer value.
 
 	Options:
 	--help, -h            Display this help message.
@@ -140,7 +140,7 @@ Surely, most utilities will be more feature-rich than the utility we have writte
 	Usage: sum <integer>... [--help] [--mod=<arg>]
 
 	Positional Arguments:
-	integer                An integer value.
+	integer               An integer value.
 
 	Options:
 	--help, -h            Display this help message.
@@ -225,7 +225,7 @@ A flag, however, may not be the best choice. Perhaps we want to allow users to s
                [--result-type=<bin|hex>]
 
 	Positional Arguments:
-	integer                An integer value.
+	integer               An integer value.
 
 	Options:
 	--help, -h            Display this help message.
