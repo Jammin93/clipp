@@ -19,4 +19,4 @@ include-package-data = false
 
 [tool.setuptools.dynamic]
 version = {attr = "clipp.__init__.__version__"}
-readme = {file = ["README.rst"]}
+readme = {file = ["README-PYPI.rst"]}
