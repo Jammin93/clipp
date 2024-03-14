@@ -11,15 +11,15 @@ documentation root, use os.path.abspath to make it absolute, like shown here.
 import os.path
 import sys
 
-from clipp import __version__
+from clipp import __author__, __copyright__, __version__
 
 sys.path.insert(0, os.path.abspath("../"))
 sys.path.insert(0, os.path.abspath("../clipp"))
 
 # -- Project information -----------------------------------------------------
 project = "Clipp"
-copyright = '2024, Ben Ohling'
-author = 'Ben Ohling'
+copyright = __copyright__
+author = __author__
 version = __version__
 
 # -- General configuration ---------------------------------------------------
