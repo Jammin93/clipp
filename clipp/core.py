@@ -1552,23 +1552,22 @@ class Command(OptionGroup):
 
         sections.append(self.format_usage())
         if self.subcommands:
+            keys = sorted(self.subcommands.keys())
             cmd_section = "Commands: "
-            cmd_section += "{" + " | ".join(self.subcommands.keys()) + "}"
+            cmd_section += "{" + " | ".join(keys) + "}"
             cmd_section = fill_paragraph(cmd_section, subsequent_indent=RJUST)
             sections.append(cmd_section)
 
         if self._params:
+            values = sorted(self._params.values(), key=lambda x: x.name)
             pos_section = "Positional Arguments:\n"
-            pos_section += "\n".join(
-                v.format_help() for v in self._params.values()
-            )
+            pos_section += "\n".join(v.format_help() for v in values)
             sections.append(pos_section)
 
         if self._opts:
+            values = sorted(self._opts.values(), key=lambda x: x.name)
             opt_section = "Options:\n"
-            opt_section += "\n".join(
-                v.format_help() for v in self._opts.values()
-            )
+            opt_section += "\n".join(v.format_help() for v in values)
             sections.append(opt_section)
 
         if self.epilogue:
@@ -1590,13 +1589,13 @@ class Command(OptionGroup):
 
         to_format = []
         free_opts = [
-            opt for opt in self._opts.values()
+            opt for opt in sorted(self._opts.values(), key=lambda x: x.name)
             if opt.is_dependent + opt.is_mutex == 0
         ]
         # Append positional arguments.
         to_format.extend([
             param.usage.replace(" ", "_")
-            for param in self._params.values()
+            for param in sorted(self._params.values(), key=lambda x: x.name)
         ])
         # Append required options.
         to_format.extend([
