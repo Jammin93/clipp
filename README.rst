@@ -42,6 +42,13 @@ Features
 - Supports post-processing of option arguments via callback functions.
 - Easily override defaults for help and version info options.
 
+Installation
+============
+
+.. code:: console
+
+	$ python -m pip install clipp
+
 Quickstart
 ==========
 
