@@ -10,7 +10,7 @@ from typing import Any, Hashable, Iterable, Mapping, Optional, Sequence
 
 class Descriptor:
     """Base class for descriptors."""
-    __dict__ = weakref.WeakKeyDictionary
+    __dict__ = weakref.WeakKeyDictionary()
 
     def __set_name__(self, owner, name):
         self.name = name
