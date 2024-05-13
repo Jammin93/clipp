@@ -382,7 +382,7 @@ class Option:
         """
         if self._dest:
             return self._dest
-        return self.name
+        return self.name.lstrip("--").replace("-", "_")
 
     @property
     def is_dependent(self) -> bool:
