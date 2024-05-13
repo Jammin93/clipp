@@ -4,7 +4,7 @@ Clipp
 
 .. The shorthand for line blocks doesn't render properly on github, so we are forced to use the line-break substitution.
 
-| **Latest Version:** 1.0.4
+| **Latest Version:** 1.0.5
 | **Status:** Beta, active development
 
 Clipp is a POSIX-compliant, CLI parser library for building command-line interfaces, designed to be flexible, intelligent, and uncompromisingly simple. The package is similar to argparse but aims to be more intuitive and less cumbersome. Clipp allows for greater code re-use than argparse and is much more scalable. In terms of parser latency, clipp typically outperforms argparse. Though clipp is much more minimalist than argparse, its API has most of the features you would expect to find in a command-line parsing library.
@@ -138,7 +138,7 @@ Surely, most utilities will be more feature-rich than the utility we have writte
 	--mod, -m             Compute the sum mod N, where N is a valid
 	                      integer.
 	$ python3 -m sum 1 2 3 --mod
-	Namespace(globals={}, locals={'sum': {'value': 6, '--mod': 2}}, extra=[])
+	Namespace(globals={}, locals={'sum': {'value': 6, 'mod': 2}}, extra=[])
 
 
 In the command-line example above, we see that "--mod" now appears in the locals dictionary under "sum" (our command). Since no argument was supplied to "--mod", its value is equal to that of the ``const`` argument which we passed in the ``add_option`` method. The value of ``const`` is the value used by the parser when an option IS encountered but no arguments are received. The counterpart to the ``const`` argument is ``default`` which represents the value used by the parser whenever an option is NOT encountered at the command-line. Whether an option supports ``default`` or ``const`` is ultimately determined by its quota.
@@ -169,7 +169,7 @@ A good use-case for an option which utilizes a default is a flag. Flags always h
 .. code:: console
 
 	$ python3 -m sum 1 2 3 --hexify
-	Namespace(globals={}, locals={'sum': {'value': 6, '--hexify': True}}, extra=[])
+	Namespace(globals={}, locals={'sum': {'value': 6, 'hexify': True}}, extra=[])
 
 Notice that the values used above are boolean values, and the flag we have added ultimately represents a binary option. Clipp has a convenience method for binary flags. Let's adjust the code above and use the ``add_binary_flag`` method instead.
 
@@ -187,7 +187,7 @@ Notice that the values used above are boolean values, and the flag we have added
 .. code:: console
 
 	$ python3 -m sum 1 2 3 --hexify
-	Namespace(globals={}, locals={'sum': {'value': 6, '--hexify': True}}, extra=[])
+	Namespace(globals={}, locals={'sum': {'value': 6, 'hexify': True}}, extra=[])
 
 By default, the ``const`` argument of the method ``add_binary_flag`` is set to ``True``, and ``default`` is always the opposite of ``const``.
 
@@ -221,7 +221,7 @@ A flag, however, may not be the best choice. Perhaps we want to allow users to s
 	--result-type, -t     Convert the result to either hexidecimal (hex)
 	                      or binary (bin).
 	$ python3 -m 1 2 3 -t bin
-	Namespace(globals={}, locals={'sum': {'value': 6, '--result-type': 'bin'}}, extra=[])
+	Namespace(globals={}, locals={'sum': {'value': 6, 'result_type': 'bin'}}, extra=[])
 
 At this point, our utility isn't very useful for the end-user. We'll need to make sure that our utility does what it claims if we want happy users.
 
