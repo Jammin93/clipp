@@ -207,7 +207,7 @@ A flag, however, may not be the best choice. Perhaps we want to allow users to s
 
 .. code:: console
 
-	$ python3 -m --help
+	$ python3 -m sum --help
 	Usage: sum <integer>... [--help] [--mod=<arg>]
                [--result-type=<bin|hex>]
 
