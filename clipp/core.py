@@ -2063,7 +2063,7 @@ class Parser:
 
     Parameters
     ----------
-    command : {`Command`, `_Subcommand`}
+    command : {`Command`, `Subcommand`}
         The command which informs the parser how to parse the argument stack.
     """
 
