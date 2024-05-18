@@ -69,7 +69,7 @@ html_theme_options = {
         {
             "rel": "icon",
             "sizes": "32x32",
-            "href": "favicon.png"
+            "href": "favicon.jpg"
         },
 
     ]
