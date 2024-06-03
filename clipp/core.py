@@ -315,7 +315,7 @@ class Option:
             required: bool = False,
             is_global: bool = False,
             ):
-        err_msg = "%s not supported for quota %s"
+        err_msg = "%s not supported for quota '%s'"
         if choices and quota != 1:
             raise ValueError(err_msg % ("choices", quota))
 
@@ -1559,7 +1559,7 @@ class Command(OptionGroup):
             sections.append(cmd_section)
 
         if self._params:
-            values = sorted(self._params.values(), key=lambda x: x.name)
+            values = self._params.values()
             pos_section = "Positional Arguments:\n"
             pos_section += "\n".join(v.format_help() for v in values)
             sections.append(pos_section)
@@ -1595,7 +1595,7 @@ class Command(OptionGroup):
         # Append positional arguments.
         to_format.extend([
             param.usage.replace(" ", "_")
-            for param in sorted(self._params.values(), key=lambda x: x.name)
+            for param in self._params.values()
         ])
         # Append required options.
         to_format.extend([
