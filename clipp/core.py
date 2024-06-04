@@ -1080,6 +1080,7 @@ class OptionGroup:
                 self._opts[keygroup.pop()]._is_mutex = False
 
     def make_dependent(self, *aliases: str) -> None:
+        # todo: needs docstring
         options = [self._opts[name] for name in aliases]
         if not is_homogeneous([opt.is_global for opt in options]):
             raise RelationalIntegrityError(
@@ -1100,13 +1101,14 @@ class OptionGroup:
         )
 
     def make_mutually_exclusive(self, *aliases: str) -> None:
+        # todo: needs docstring
         err_msg = "option %s cannot be made mutually exclusive because %s"
         options = [self._opts[name] for name in aliases]
         for opt in options:
-            if opt.has_default:
-                raise AmbiguityError(
-                    err_msg % (opt.name, "it has a default value")
-                )
+            # if opt.has_default:
+            #     raise AmbiguityError(
+            #         err_msg % (opt.name, "it has a default value")
+            #     )
 
             if opt.required:
                 raise RelationalIntegrityError(
