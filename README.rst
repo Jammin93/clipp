@@ -159,8 +159,6 @@ In the command-line example above, we see that "--mod" now appears in the locals
 
 	For non-positional options, ``default`` and ``const`` are NOT supported if the parser expects to consume one, **or more**, argument tokens (i.e. ``quota`` > 1 or ``quota`` == "+"). For parameters, ``default`` and ``const`` are **only** supported for zero-or-more quotas (*).
 
-	Additionally, ``default`` is not supported for options which are part of a mutually exclusive group. In such a case, defaults are considered ambiguous because there is no rule which would allow the parser to determine the "correct" option and corresponding default to add to the namespace when none of the mutually exclusive options are encountered at the command-line. The parser is restricted from making arbitrary decisions on behalf of the user.
-
 |hr|
 
 A good use-case for an option which utilizes a default is a flag. Flags always have a ``quota`` of zero and therefore do not expect any arguments. Their possible values are predetermined by ``const`` and ``default``.
