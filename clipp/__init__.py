@@ -7,5 +7,5 @@ from clipp.core import Command, fill_paragraph, OptionGroup
 
 __author__ = "Ben Ohling"
 __copyright__ = f"Copyright (C) 2024, {__author__}"
-__version__ = "1.0.7"
+__version__ = "1.1.0"
 __all__ = ["Command", "fill_paragraph", "OptionGroup"]
