@@ -425,7 +425,7 @@ class Option:
         return self.const is not None
 
     @cached_callable
-    def dtype(self) -> Callable:
+    def _dtype(self) -> Callable:
         """
         Returns the callback function for converting tokens. If `dtype` is
         not explicitly supplied to the constructor, the callback will be an
@@ -434,6 +434,21 @@ class Option:
         if self._dtype:
             return self._dtype
         return identity
+
+    def dtype(self, value: Any) -> Any:
+        try:
+            return self._dtype(value)
+        except Exception:
+            help_prefix = "Help: "
+            _help = fill_paragraph(
+                self.help,
+                subsequent_indent=" " * len(help_prefix),
+            )
+            msg = (
+                f"ERROR: invalid value '{value}' supplied to {self.name}\n"
+                f"{help_prefix}{fill_paragraph(_help)}"
+            )
+            sys.exit(msg)
 
     def action(self, value: Any) -> Any:
         """
