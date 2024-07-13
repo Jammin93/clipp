@@ -2222,7 +2222,7 @@ class Parser:
                     processed = gopts
 
                 values = processed.get(opt.name, [])
-                while arguments:
+                while arguments and len(values) < opt.quota:
                     token = arguments.popleft()
                     if token == esc or token[0] == "-" and not is_number(token):
                         # Either we've hit an escape sequence, or the token
@@ -2231,7 +2231,8 @@ class Parser:
                         arguments.appendleft(token)
                         break
 
-                    values.append(opt.dtype(token))
+                    values.append(opt.convert(token))
+
                 processed[opt.name] = values
             elif token.startswith("--"):
                 if token == esc:
@@ -2251,10 +2252,10 @@ class Parser:
         params += arguments
         for opt in self.command._params.values():
             if opt.quota != INF:
-                lopts[opt.name] = [opt.dtype(v) for v in params[:opt.quota]]
+                lopts[opt.name] = [opt.convert(v) for v in params[:opt.quota]]
                 del params[:opt.quota]
             else:
-                lopts[opt.name] = [opt.dtype(v) for v in params]
+                lopts[opt.name] = [opt.convert(v) for v in params]
                 del params[:]
 
         return ParsedArguments(gopts, lopts), params
