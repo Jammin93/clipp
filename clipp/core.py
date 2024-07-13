@@ -426,7 +426,7 @@ class Option:
         return self.const is not None
 
     @cached_callable
-    def _dtype(self) -> Callable:
+    def dtype(self) -> Callable:
         """
         Returns the callback function for converting tokens. If `dtype` is
         not explicitly supplied to the constructor, the callback will be an
@@ -434,12 +434,13 @@ class Option:
         """
         if self._dtype:
             return self._dtype
+
         return identity
 
-    def dtype(self, value: Any) -> Any:
+    def convert(self, value: Any) -> Any:
         try:
-            return self._dtype(value)
-        except Exception:
+            return self.dtype(value)
+        except Exception as err:
             help_prefix = "Help: "
             _help = fill_paragraph(
                 self.help,
@@ -2221,7 +2222,6 @@ class Parser:
                     processed = gopts
 
                 values = processed.get(opt.name, [])
-                dtype = opt.dtype
                 while arguments:
                     token = arguments.popleft()
                     if token == esc or token[0] == "-" and not is_number(token):
@@ -2231,7 +2231,7 @@ class Parser:
                         arguments.appendleft(token)
                         break
 
-                    values.append(dtype(token))
+                    values.append(opt.dtype(token))
                 processed[opt.name] = values
             elif token.startswith("--"):
                 if token == esc:
@@ -2250,12 +2250,11 @@ class Parser:
 
         params += arguments
         for opt in self.command._params.values():
-            dtype = opt.dtype
             if opt.quota != INF:
-                lopts[opt.name] = [dtype(v) for v in params[:opt.quota]]
+                lopts[opt.name] = [opt.dtype(v) for v in params[:opt.quota]]
                 del params[:opt.quota]
             else:
-                lopts[opt.name] = [dtype(v) for v in params]
+                lopts[opt.name] = [opt.dtype(v) for v in params]
                 del params[:]
 
         return ParsedArguments(gopts, lopts), params
