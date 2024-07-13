@@ -573,20 +573,20 @@ other in the namespace, which may or may not be desired.</p>
 <li><p><code class="docutils literal notranslate"><span class="pre">int</span></code>: Consume exactly <code class="docutils literal notranslate"><span class="pre">quota</span></code> arguments.</p></li>
 <li><p><a href="#id19"><span class="problematic" id="id20">*</span></a>: Consume zero or more arguments (greedy).</p></li>
 <li><p>+: Consume one or more arguments (greedy).</p></li>
+<li><p>?: Consume zeror or exactly one argument.</p></li>
 </ul>
 </dd>
 <dt>choices<span class="classifier"><cite>Sequence</cite></span></dt><dd><p>An iterable containing the set of allowed strings for the parser
 to consume. There must be more than one choice. Duplicates will be
 removed. A choice can be any string which does not contain a
-leading dash. This parameter is only supported when if <code class="docutils literal notranslate"><span class="pre">quota</span></code> is
-equal to one.</p>
+leading dash. This parameter is only supported if <code class="docutils literal notranslate"><span class="pre">quota</span></code> is
+equal to one or ‘?’.</p>
 </dd>
 <dt>default<span class="classifier"><cite>Any</cite>, optional</span></dt><dd><p>Default value used if the option is NOT encountered while parsing.
 Defaults are only supported by options which accept one or fewer
 arguments. If no default is supplied to an option with a quota of
 zero-or-more (*) then the value returned by the parser will be an
-empty list. Defaults are ignored for options which are members of
-mutually exclusive groups.</p>
+empty list.</p>
 </dd>
 <dt>dtype<span class="classifier"><cite>Callable</cite>, optional</span></dt><dd><p>Optional callable which will be used to convert each of the tokens
 collected by the parser. Exceptions raised by this callback are not
@@ -612,7 +612,8 @@ string is provided, <code class="docutils literal notranslate"><span class="pre"
 <dl class="simple">
 <dt><code class="docutils literal notranslate"><span class="pre">ValueError</span></code> :</dt><dd><ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">name</span></code> is not a valid positional argument name.</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">quota</span></code> is a string which is not equal to one of {‘*’, ‘+’}.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">quota</span></code> is a string which is not equal to one of
+{‘*’, ‘+’, ‘?’}.</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">default</span></code> is not supported, given the quota.</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">choices</span></code> contains an invalid choice string.</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">choices</span></code> is not supported, given the quota.</p></li>
