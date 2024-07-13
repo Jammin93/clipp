@@ -40,6 +40,7 @@ ParsedArguments = namedtuple("ParsedArguments", "globals locals")
 ESC = "--"
 INF = float("inf")
 EAGER_OPS = "*+"
+ZERO_OR_ONE = "?"
 LPAD = 22
 RJUST = " " * LPAD
 
@@ -592,7 +593,13 @@ class Parameter(Option):
             help: str = "",
             usage: str = "",
             ):
-        required = False if quota == "*" else True
+        required = False if quota == "*" or quota == "?" else True
+        if quota == "?" and default is None:
+            raise ValueError(
+                "optional parameters which accept either zero or one argument "
+                "(quota='?') must be supplied a default value"
+            )
+
         super().__init__(
             name,
             dest=dest,
@@ -606,8 +613,59 @@ class Parameter(Option):
         )
 
     @staticmethod
+    def _coerce_quota(value: int | str) -> int | float:
+        if not isinstance(value, (int, str)):
+            raise TypeError(f"expected 'int' or 'str'; got {type(value)}")
+        elif isinstance(value, str):
+            if value not in EAGER_OPS and value != ZERO_OR_ONE:
+                print(value)
+                expected = ", ".join(EAGER_OPS + ZERO_OR_ONE)
+                raise ValueError(
+                    f"expected an integer greater than zero or one of "
+                    f"{expected}; got '{value}'"
+                )
+
+            if value == ZERO_OR_ONE:
+                value = 1
+            else:
+                value = float("inf")
+
+        return value
+
+    @staticmethod
     def _supports_defaults(quota: int | str) -> bool:
-        return quota == "*"
+        return quota == "*" or quota == "?"
+
+    def _meets_quota(self, values: list[Any]) -> int:
+        if self._profile == "+":
+            return len(values) >= 1
+        elif self._profile == "?":
+            return len(values) == 1
+        elif self._profile != "*":
+            return len(values) == self.quota
+        # By definition, options with zero-or-more or zero-or-one quota
+        # profiles always meet their quotas.
+        return True
+
+    def _validate(self, values: list[Any]) -> None:
+        # Termination is not dictated solely by whether or not the option has
+        # met its quota. In some cases, we allow for the constant value to be
+        # used when the quota is not met.
+        if not self._meets_quota(values):
+            if self._profile == "+":
+                sys.exit(f"ERROR: {self.name} expects one or more arguments")
+            elif isinstance(self.quota, int) and self.quota > 1:
+                sys.exit(f"ERROR: {self.name} expects {self.quota} arguments")
+            elif self.quota == 1 and not self.has_default:
+                sys.exit(f"ERROR: {self.name} expects an argument")
+
+        if self.choices and values:
+            choice = values[0]
+            if choice not in self.choices:
+                sys.exit(
+                    f"ERROR: invalid argument '{choice}' supplied to "
+                    f"option '{self.name}'"
+                )
 
     @property
     def usage(self) -> str:
@@ -623,9 +681,14 @@ class Parameter(Option):
 
         if self.choices:
             choices = "|".join(self.choices)
-            return f"<{self.name} " + "{" + choices + "}>"
+            res = f"<{self.name} " + "{" + choices + "}>"
         else:
-            return f"<{self.name}>"
+            res = f"<{self.name}>"
+
+        if self._profile == ZERO_OR_ONE:
+            res = f"[{res}]"
+
+        return res
 
 
 class Flag(Option):
@@ -1359,19 +1422,19 @@ class Command(OptionGroup):
             - ``int``: Consume exactly ``quota`` arguments.
             - *: Consume zero or more arguments (greedy).
             - +: Consume one or more arguments (greedy).
+            - ?: Consume zeror or exactly one argument.
         choices : `Sequence`
             An iterable containing the set of allowed strings for the parser
             to consume. There must be more than one choice. Duplicates will be
             removed. A choice can be any string which does not contain a
-            leading dash. This parameter is only supported when if ``quota`` is
-            equal to one.
+            leading dash. This parameter is only supported if ``quota`` is
+            equal to one or '?'.
         default : `Any`, optional
             Default value used if the option is NOT encountered while parsing.
             Defaults are only supported by options which accept one or fewer
             arguments. If no default is supplied to an option with a quota of
             zero-or-more (*) then the value returned by the parser will be an
-            empty list. Defaults are ignored for options which are members of
-            mutually exclusive groups.
+            empty list.
         dtype : `Callable`, optional
             Optional callable which will be used to convert each of the tokens
             collected by the parser. Exceptions raised by this callback are not
@@ -1394,7 +1457,8 @@ class Command(OptionGroup):
         ------
         ``ValueError`` :
             - ``name`` is not a valid positional argument name.
-            - ``quota`` is a string which is not equal to one of {'*', '+'}.
+            - ``quota`` is a string which is not equal to one of
+              {'*', '+', '?'}.
             - ``default`` is not supported, given the quota.
             - ``choices`` contains an invalid choice string.
             - ``choices`` is not supported, given the quota.
@@ -1418,11 +1482,11 @@ class Command(OptionGroup):
         self._check_options(value)
         if self._params:
             last = index_view(self._params.values(), -1)
-            if last.quota == INF:
+            if last.quota == INF or last._profile == ZERO_OR_ONE:
                 raise AmbiguityError(
                     f"the quota for positional argument '{value.name}' "
                     f"is ambiguous because it follows a positional argument "
-                    f"with a greedy quota"
+                    f"with a variable quota"
                 )
 
         self._params[value.aliases] = value
@@ -1759,6 +1823,9 @@ class Command(OptionGroup):
                 opt = self._params[key]
 
             opt._validate(values)
+            if not values and isinstance(opt, Parameter):
+                return processed
+
             if not values and opt.has_const:
                 processed[opt.altname] = opt.const
             elif opt.quota == 1:
