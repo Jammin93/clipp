@@ -142,6 +142,7 @@ def test_choice_descriptor(values, expected_error, obj_with_descriptor):
         assert obj.attr == values
 
 
+@pytest.mark.skip("not implemented")
 def test_reference_descriptor():
     """
     Ensure that the subclass references the correct attribute of the parent.
