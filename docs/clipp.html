@@ -324,31 +324,7 @@ code more reusable and easily scalable, without compromising performance.</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="clipp.__init__.Command">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Command</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">prologue</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">epilogue</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">usage</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">help</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">version_info</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#clipp.__init__.Command" title="Link to this definition">#</a></dt>
-<dd><p>Bases: <a class="reference internal" href="#clipp.__init__.OptionGroup" title="clipp.core.OptionGroup"><code class="xref py py-class docutils literal notranslate"><span class="pre">OptionGroup</span></code></a></p>
-<p>Container for storing user-defined options and sub-commands. Uses
-stored options and sub-commands to generate rules which dictate how
-command-line arguments are to be parsed.</p>
-<section id="parameters">
-<h1>Parameters<a class="headerlink" href="#parameters" title="Link to this heading">#</a></h1>
-<dl>
-<dt>name<span class="classifier"><cite>str</cite>, optional</span></dt><dd><p>The name of the command used as the key in the namespace returned
-after parsing command-line arguments. If no name is provided,
-defaults to the name of the script which calls the constructor.</p>
-</dd>
-<dt>prologue<span class="classifier"><cite>str</cite>, optional</span></dt><dd><p>The introductory text displayed in the command’s help message.</p>
-</dd>
-<dt>epilogue<span class="classifier"><cite>str</cite>, optional</span></dt><dd><p>The text displayed at the bottom of the command’s help message.</p>
-</dd>
-<dt>usage<span class="classifier"><cite>str</cite>, optional</span></dt><dd><p>The usage text displayed in the command’s help message.</p>
-</dd>
-<dt>help<span class="classifier"><cite>str</cite>, optional</span></dt><dd><p>The help message which is displayed when user’s invoke the help
-function by supplying the help option string in the terminal.</p>
-</dd>
-<dt>version_info<span class="classifier"><cite>str</cite>, optional</span></dt><dd><p>The version info message which is displayed when user’s invoke the
-version info function by supplying the version option string in the
-terminal.</p>
-</dd>
-</dl>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">_Command</span></code></p>
 <dl class="py method">
 <dt class="sig sig-object py" id="clipp.__init__.Command.add_binary_flag">
 <span class="sig-name descname"><span class="pre">add_binary_flag</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">aliases</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dest</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">const</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">help</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">usage</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_global</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#clipp.__init__.Command.add_binary_flag" title="Link to this definition">#</a></dt>
@@ -358,10 +334,10 @@ Instead, their values are predetermined by <code class="docutils literal notrans
 boolean value and is used to determine the option’s default value
 which is always the opposite of <code class="docutils literal notranslate"><span class="pre">const</span></code>. Thus, if <code class="docutils literal notranslate"><span class="pre">const</span></code> is
 <code class="docutils literal notranslate"><span class="pre">True</span></code>, the default will be <code class="docutils literal notranslate"><span class="pre">False</span></code>.</p>
-<section id="id1">
-<h2>Parameters<a class="headerlink" href="#id1" title="Link to this heading">#</a></h2>
+<section id="parameters">
+<h1>Parameters<a class="headerlink" href="#parameters" title="Link to this heading">#</a></h1>
 <dl>
-<dt><a href="#id2"><span class="problematic" id="id3">*</span></a>aliases<span class="classifier"><cite>str</cite></span></dt><dd><p>The various aliases which can be used to invoke the option from the
+<dt><a href="#id1"><span class="problematic" id="id2">*</span></a>aliases<span class="classifier"><cite>str</cite></span></dt><dd><p>The various aliases which can be used to invoke the option from the
 command-line.</p>
 </dd>
 <dt>dest<span class="classifier"><cite>str</cite> optional</span></dt><dd><p>Alternative name for the option, used as the option’s key in the
@@ -384,7 +360,7 @@ Sub-commands can override universal options of their parents.</p>
 </dl>
 </section>
 <section id="raises">
-<h2>Raises<a class="headerlink" href="#raises" title="Link to this heading">#</a></h2>
+<h1>Raises<a class="headerlink" href="#raises" title="Link to this heading">#</a></h1>
 <dl class="simple">
 <dt><code class="docutils literal notranslate"><span class="pre">ValueError</span></code> :</dt><dd><p><code class="docutils literal notranslate"><span class="pre">alias</span></code> is not a valid short or long alias string.</p>
 </dd>
@@ -403,10 +379,10 @@ callback function is immediately triggered, followed by a call to
 aliases for the option are encountered by the parser, the help
 message is immediately displayed, all other options are ignored,
 and the system exits.</p>
-<section id="id4">
-<h2>Parameters<a class="headerlink" href="#id4" title="Link to this heading">#</a></h2>
+<section id="id3">
+<h1>Parameters<a class="headerlink" href="#id3" title="Link to this heading">#</a></h1>
 <dl>
-<dt><a href="#id5"><span class="problematic" id="id6">*</span></a>aliases<span class="classifier"><cite>str</cite></span></dt><dd><p>The various aliases which can be used to invoke the option from the
+<dt><a href="#id4"><span class="problematic" id="id5">*</span></a>aliases<span class="classifier"><cite>str</cite></span></dt><dd><p>The various aliases which can be used to invoke the option from the
 command-line.</p>
 </dd>
 <dt>callback<span class="classifier"><cite>Callable</cite></span></dt><dd><p>The function which is called when the option is encountered by
@@ -419,8 +395,8 @@ provided, <code class="docutils literal notranslate"><span class="pre">clipp</sp
 </dd>
 </dl>
 </section>
-<section id="id7">
-<h2>Raises<a class="headerlink" href="#id7" title="Link to this heading">#</a></h2>
+<section id="id6">
+<h1>Raises<a class="headerlink" href="#id6" title="Link to this heading">#</a></h1>
 <dl class="simple">
 <dt><code class="docutils literal notranslate"><span class="pre">ValueError</span></code> :</dt><dd><p><code class="docutils literal notranslate"><span class="pre">alias</span></code> is not a valid short or long alias string.</p>
 </dd>
@@ -435,10 +411,10 @@ provided, <code class="docutils literal notranslate"><span class="pre">clipp</sp
 <p>The parser does not evaluate command-line arguments for flags.
 Instead, their values are predetermined by their <code class="docutils literal notranslate"><span class="pre">const</span></code> and
 <code class="docutils literal notranslate"><span class="pre">default</span></code> values.</p>
-<section id="id8">
-<h2>Parameters<a class="headerlink" href="#id8" title="Link to this heading">#</a></h2>
+<section id="id7">
+<h1>Parameters<a class="headerlink" href="#id7" title="Link to this heading">#</a></h1>
 <dl>
-<dt><a href="#id9"><span class="problematic" id="id10">*</span></a>aliases<span class="classifier"><cite>str</cite></span></dt><dd><p>The various aliases which can be used to invoke the option from the
+<dt><a href="#id8"><span class="problematic" id="id9">*</span></a>aliases<span class="classifier"><cite>str</cite></span></dt><dd><p>The various aliases which can be used to invoke the option from the
 command-line.</p>
 </dd>
 <dt>dest<span class="classifier"><cite>str</cite> optional</span></dt><dd><p>Alternative name for the option, used as the option’s key in the
@@ -462,8 +438,8 @@ Sub-commands can override universal options of their parents.</p>
 </dd>
 </dl>
 </section>
-<section id="id11">
-<h2>Raises<a class="headerlink" href="#id11" title="Link to this heading">#</a></h2>
+<section id="id10">
+<h1>Raises<a class="headerlink" href="#id10" title="Link to this heading">#</a></h1>
 <dl class="simple">
 <dt><code class="docutils literal notranslate"><span class="pre">ValueError</span></code> :</dt><dd><p><code class="docutils literal notranslate"><span class="pre">alias</span></code> is not a valid short or long alias string.</p>
 </dd>
@@ -475,10 +451,10 @@ Sub-commands can override universal options of their parents.</p>
 <dt class="sig sig-object py" id="clipp.__init__.Command.add_option">
 <span class="sig-name descname"><span class="pre">add_option</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">aliases</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dest</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">quota</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">choices</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">()</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">default</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">const</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dtype</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">action</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">help</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">usage</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">required</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_global</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#clipp.__init__.Command.add_option" title="Link to this definition">#</a></dt>
 <dd><p>Add a non-positional option to the group.</p>
-<section id="id12">
-<h2>Parameters<a class="headerlink" href="#id12" title="Link to this heading">#</a></h2>
+<section id="id11">
+<h1>Parameters<a class="headerlink" href="#id11" title="Link to this heading">#</a></h1>
 <dl>
-<dt><a href="#id13"><span class="problematic" id="id14">*</span></a>aliases<span class="classifier"><cite>str</cite></span></dt><dd><p>The various aliases which can be used to invoke the option from the
+<dt><a href="#id12"><span class="problematic" id="id13">*</span></a>aliases<span class="classifier"><cite>str</cite></span></dt><dd><p>The various aliases which can be used to invoke the option from the
 command-line.</p>
 </dd>
 <dt>dest<span class="classifier"><cite>str</cite> optional</span></dt><dd><p>Alternative name for the option, used as the option’s key in the
@@ -489,7 +465,7 @@ other in the namespace, which may or may not be desired.</p>
 <dt>quota<span class="classifier">{<cite>int</cite>, ‘+’, ‘*’}, default 1</span></dt><dd><p>The number of arguments which the parser will attempt to consume.</p>
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">int</span></code>: Consume exactly <code class="docutils literal notranslate"><span class="pre">quota</span></code> arguments.</p></li>
-<li><p><a href="#id15"><span class="problematic" id="id16">*</span></a>: Consume zero or more arguments (greedy).</p></li>
+<li><p><a href="#id14"><span class="problematic" id="id15">*</span></a>: Consume zero or more arguments (greedy).</p></li>
 <li><p>+: Consume one or more arguments (greedy).</p></li>
 </ul>
 </dd>
@@ -535,8 +511,8 @@ Sub-commands can override global options of their parents.</p>
 </dd>
 </dl>
 </section>
-<section id="id17">
-<h2>Raises<a class="headerlink" href="#id17" title="Link to this heading">#</a></h2>
+<section id="id16">
+<h1>Raises<a class="headerlink" href="#id16" title="Link to this heading">#</a></h1>
 <dl class="simple">
 <dt><code class="docutils literal notranslate"><span class="pre">ValueError</span></code> :</dt><dd><ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">alias</span></code> is not a valid short or long alias string.</p></li>
@@ -556,8 +532,8 @@ Sub-commands can override global options of their parents.</p>
 <dt class="sig sig-object py" id="clipp.__init__.Command.add_parameter">
 <span class="sig-name descname"><span class="pre">add_parameter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dest</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">quota</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">choices</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">()</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">default</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dtype</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">action</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">help</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">usage</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#clipp.__init__.Command.add_parameter" title="Link to this definition">#</a></dt>
 <dd><p>Add a positional argument to the command.</p>
-<section id="id18">
-<h2>Parameters<a class="headerlink" href="#id18" title="Link to this heading">#</a></h2>
+<section id="id17">
+<h1>Parameters<a class="headerlink" href="#id17" title="Link to this heading">#</a></h1>
 <dl>
 <dt>name<span class="classifier"><cite>str</cite></span></dt><dd><p>The namespace ID for the argument. Positional argument names may
 contain only letters, numbers, and dashes (-). Leading or
@@ -571,7 +547,7 @@ other in the namespace, which may or may not be desired.</p>
 <dt>quota<span class="classifier">{<cite>int</cite>, ‘+’, ‘*’}, default 1</span></dt><dd><p>The number of arguments which the parser will attempt to consume.</p>
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">int</span></code>: Consume exactly <code class="docutils literal notranslate"><span class="pre">quota</span></code> arguments.</p></li>
-<li><p><a href="#id19"><span class="problematic" id="id20">*</span></a>: Consume zero or more arguments (greedy).</p></li>
+<li><p><a href="#id18"><span class="problematic" id="id19">*</span></a>: Consume zero or more arguments (greedy).</p></li>
 <li><p>+: Consume one or more arguments (greedy).</p></li>
 <li><p>?: Consume zeror or exactly one argument.</p></li>
 </ul>
@@ -607,8 +583,8 @@ string is provided, <code class="docutils literal notranslate"><span class="pre"
 </dd>
 </dl>
 </section>
-<section id="id21">
-<h2>Raises<a class="headerlink" href="#id21" title="Link to this heading">#</a></h2>
+<section id="id20">
+<h1>Raises<a class="headerlink" href="#id20" title="Link to this heading">#</a></h1>
 <dl class="simple">
 <dt><code class="docutils literal notranslate"><span class="pre">ValueError</span></code> :</dt><dd><ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">name</span></code> is not a valid positional argument name.</p></li>
@@ -629,8 +605,8 @@ string is provided, <code class="docutils literal notranslate"><span class="pre"
 <dt class="sig sig-object py" id="clipp.__init__.Command.add_subcommand">
 <span class="sig-name descname"><span class="pre">add_subcommand</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dest</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">prologue</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">epilogue</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">usage</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">help</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">version_info</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#clipp.__init__.Command.add_subcommand" title="Link to this definition">#</a></dt>
 <dd><p>Add the specified sub-command identified by <code class="docutils literal notranslate"><span class="pre">name</span></code> to the command.</p>
-<section id="id22">
-<h2>Parameters<a class="headerlink" href="#id22" title="Link to this heading">#</a></h2>
+<section id="id21">
+<h1>Parameters<a class="headerlink" href="#id21" title="Link to this heading">#</a></h1>
 <dl>
 <dt>name<span class="classifier"><cite>str</cite></span></dt><dd><p>The name of the sub-command. Unless overriden by <code class="docutils literal notranslate"><span class="pre">dest</span></code>, it is
 used as the key in the dictionary/namespace produced by the parser.</p>
@@ -655,8 +631,8 @@ hierarchy, a unique <code class="docutils literal notranslate"><span class="pre"
 </dd>
 </dl>
 </section>
-<section id="id23">
-<h2>Raises<a class="headerlink" href="#id23" title="Link to this heading">#</a></h2>
+<section id="id22">
+<h1>Raises<a class="headerlink" href="#id22" title="Link to this heading">#</a></h1>
 <dl class="simple">
 <dt><code class="docutils literal notranslate"><span class="pre">KeyError</span></code> :</dt><dd><p><code class="docutils literal notranslate"><span class="pre">name</span></code> interferes with the name of a another command in the
 command hierarchy and a non-unique <code class="docutils literal notranslate"><span class="pre">dest</span></code> has been supplied.</p>
@@ -700,8 +676,8 @@ group being included has a mutually exclusive group comprised of –foo
 and –bar, but only –bar is included, then –bar will lose its status
 as a mutually exclusive option. The same rule applies to dependent
 groups.</p>
-<section id="id24">
-<h2>Parameters<a class="headerlink" href="#id24" title="Link to this heading">#</a></h2>
+<section id="id23">
+<h1>Parameters<a class="headerlink" href="#id23" title="Link to this heading">#</a></h1>
 <dl>
 <dt>option_group<span class="classifier"><cite>OptionGroup</cite></span></dt><dd><p>The group containing the options to be added.</p>
 </dd>
@@ -710,8 +686,8 @@ added. If no list is provided, all options will be added.</p>
 </dd>
 </dl>
 </section>
-<section id="id25">
-<h2>Raises<a class="headerlink" href="#id25" title="Link to this heading">#</a></h2>
+<section id="id24">
+<h1>Raises<a class="headerlink" href="#id24" title="Link to this heading">#</a></h1>
 <dl class="simple">
 <dt><code class="docutils literal notranslate"><span class="pre">KeyError</span></code> :</dt><dd><p>One or more of the options already exists in the group or has an
 alias which conflicts with an option which has already been added.</p>
@@ -724,16 +700,16 @@ alias which conflicts with an option which has already been added.</p>
 <dt class="sig sig-object py" id="clipp.__init__.Command.remove">
 <span class="sig-name descname"><span class="pre">remove</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">option_name</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#clipp.__init__.Command.remove" title="Link to this definition">#</a></dt>
 <dd><p>Remove an option or parameter from the command.</p>
-<section id="id26">
-<h2>Parameters<a class="headerlink" href="#id26" title="Link to this heading">#</a></h2>
+<section id="id25">
+<h1>Parameters<a class="headerlink" href="#id25" title="Link to this heading">#</a></h1>
 <dl>
 <dt>option_name<span class="classifier"><cite>str</cite></span></dt><dd><p>The name of the option to be removed. If the option has multiple
 aliases, the name can be any one of those aliases.</p>
 </dd>
 </dl>
 </section>
-<section id="id27">
-<h2>Raises<a class="headerlink" href="#id27" title="Link to this heading">#</a></h2>
+<section id="id26">
+<h1>Raises<a class="headerlink" href="#id26" title="Link to this heading">#</a></h1>
 <dl class="simple">
 <dt><code class="docutils literal notranslate"><span class="pre">KeyError</span></code> :</dt><dd><p><code class="docutils literal notranslate"><span class="pre">name</span></code> is recognized by the command.</p>
 </dd>
@@ -746,10 +722,10 @@ aliases, the name can be any one of those aliases.</p>
 <span class="sig-name descname"><span class="pre">set_help_flag</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">aliases</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">callback</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">help</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">usage</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#clipp.__init__.Command.set_help_flag" title="Link to this definition">#</a></dt>
 <dd><p>Set the default help flag. If a help flag has already been set,
 it will be overridden.</p>
-<section id="id28">
-<h2>Parameters<a class="headerlink" href="#id28" title="Link to this heading">#</a></h2>
+<section id="id27">
+<h1>Parameters<a class="headerlink" href="#id27" title="Link to this heading">#</a></h1>
 <dl>
-<dt><a href="#id29"><span class="problematic" id="id30">*</span></a>aliases<span class="classifier"><cite>str</cite></span></dt><dd><p>The various aliases which can be used to invoke the option from the
+<dt><a href="#id28"><span class="problematic" id="id29">*</span></a>aliases<span class="classifier"><cite>str</cite></span></dt><dd><p>The various aliases which can be used to invoke the option from the
 command-line.</p>
 </dd>
 <dt>callback<span class="classifier"><cite>Callable</cite></span></dt><dd><p>The function which is called when the option is encountered by
@@ -762,8 +738,8 @@ provided, <code class="docutils literal notranslate"><span class="pre">clipp</sp
 </dd>
 </dl>
 </section>
-<section id="id31">
-<h2>Raises<a class="headerlink" href="#id31" title="Link to this heading">#</a></h2>
+<section id="id30">
+<h1>Raises<a class="headerlink" href="#id30" title="Link to this heading">#</a></h1>
 <dl class="simple">
 <dt><code class="docutils literal notranslate"><span class="pre">ValueError</span></code> :</dt><dd><p><code class="docutils literal notranslate"><span class="pre">alias</span></code> is not a valid short or long alias string.</p>
 </dd>
@@ -776,10 +752,10 @@ provided, <code class="docutils literal notranslate"><span class="pre">clipp</sp
 <span class="sig-name descname"><span class="pre">set_version_flag</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">aliases</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">callback</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">help</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">usage</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#clipp.__init__.Command.set_version_flag" title="Link to this definition">#</a></dt>
 <dd><p>Set the default version info flag. If the flag has already been set,
 it will be overridden.</p>
-<section id="id32">
-<h2>Parameters<a class="headerlink" href="#id32" title="Link to this heading">#</a></h2>
+<section id="id31">
+<h1>Parameters<a class="headerlink" href="#id31" title="Link to this heading">#</a></h1>
 <dl>
-<dt><a href="#id33"><span class="problematic" id="id34">*</span></a>aliases<span class="classifier"><cite>str</cite></span></dt><dd><p>The various aliases which can be used to invoke the option from the
+<dt><a href="#id32"><span class="problematic" id="id33">*</span></a>aliases<span class="classifier"><cite>str</cite></span></dt><dd><p>The various aliases which can be used to invoke the option from the
 command-line.</p>
 </dd>
 <dt>callback<span class="classifier"><cite>Callable</cite></span></dt><dd><p>The function which is called when the option is encountered by
@@ -792,8 +768,8 @@ provided, <code class="docutils literal notranslate"><span class="pre">clipp</sp
 </dd>
 </dl>
 </section>
-<section id="id35">
-<h2>Raises<a class="headerlink" href="#id35" title="Link to this heading">#</a></h2>
+<section id="id34">
+<h1>Raises<a class="headerlink" href="#id34" title="Link to this heading">#</a></h1>
 <dl class="simple">
 <dt><code class="docutils literal notranslate"><span class="pre">ValueError</span></code> :</dt><dd><p><code class="docutils literal notranslate"><span class="pre">alias</span></code> is not a valid short or long alias string.</p>
 </dd>
@@ -826,18 +802,12 @@ local options.</p>
 <dd><p>A dictionary-like view containing all positional arguments.</p>
 </dd></dl>
 
-</section>
 </dd></dl>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="clipp.__init__.OptionGroup">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">OptionGroup</span></span><a class="headerlink" href="#clipp.__init__.OptionGroup" title="Link to this definition">#</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
-<p>An option group is a simple container class for storing options. Option
-groups can be used to group options that share similar characterstics or
-which are always expected to be added together to a command object.
-Options stored in a group can be added to a command by adding the entire
-group. Option groups help reduce code repetition and facilitate code re-use.</p>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">_OptionGroup</span></code></p>
 <dl class="py method">
 <dt class="sig sig-object py" id="clipp.__init__.OptionGroup.add_binary_flag">
 <span class="sig-name descname"><span class="pre">add_binary_flag</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">aliases</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dest</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">const</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">help</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">usage</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_global</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#clipp.__init__.OptionGroup.add_binary_flag" title="Link to this definition">#</a></dt>
@@ -847,10 +817,10 @@ Instead, their values are predetermined by <code class="docutils literal notrans
 boolean value and is used to determine the option’s default value
 which is always the opposite of <code class="docutils literal notranslate"><span class="pre">const</span></code>. Thus, if <code class="docutils literal notranslate"><span class="pre">const</span></code> is
 <code class="docutils literal notranslate"><span class="pre">True</span></code>, the default will be <code class="docutils literal notranslate"><span class="pre">False</span></code>.</p>
-<section id="id36">
-<h1>Parameters<a class="headerlink" href="#id36" title="Link to this heading">#</a></h1>
+<section id="id35">
+<h1>Parameters<a class="headerlink" href="#id35" title="Link to this heading">#</a></h1>
 <dl>
-<dt><a href="#id37"><span class="problematic" id="id38">*</span></a>aliases<span class="classifier"><cite>str</cite></span></dt><dd><p>The various aliases which can be used to invoke the option from the
+<dt><a href="#id36"><span class="problematic" id="id37">*</span></a>aliases<span class="classifier"><cite>str</cite></span></dt><dd><p>The various aliases which can be used to invoke the option from the
 command-line.</p>
 </dd>
 <dt>dest<span class="classifier"><cite>str</cite> optional</span></dt><dd><p>Alternative name for the option, used as the option’s key in the
@@ -872,8 +842,8 @@ Sub-commands can override universal options of their parents.</p>
 </dd>
 </dl>
 </section>
-<section id="id39">
-<h1>Raises<a class="headerlink" href="#id39" title="Link to this heading">#</a></h1>
+<section id="id38">
+<h1>Raises<a class="headerlink" href="#id38" title="Link to this heading">#</a></h1>
 <dl class="simple">
 <dt><code class="docutils literal notranslate"><span class="pre">ValueError</span></code> :</dt><dd><p><code class="docutils literal notranslate"><span class="pre">alias</span></code> is not a valid short or long alias string.</p>
 </dd>
@@ -892,10 +862,10 @@ callback function is immediately triggered, followed by a call to
 aliases for the option are encountered by the parser, the help
 message is immediately displayed, all other options are ignored,
 and the system exits.</p>
-<section id="id40">
-<h1>Parameters<a class="headerlink" href="#id40" title="Link to this heading">#</a></h1>
+<section id="id39">
+<h1>Parameters<a class="headerlink" href="#id39" title="Link to this heading">#</a></h1>
 <dl>
-<dt><a href="#id41"><span class="problematic" id="id42">*</span></a>aliases<span class="classifier"><cite>str</cite></span></dt><dd><p>The various aliases which can be used to invoke the option from the
+<dt><a href="#id40"><span class="problematic" id="id41">*</span></a>aliases<span class="classifier"><cite>str</cite></span></dt><dd><p>The various aliases which can be used to invoke the option from the
 command-line.</p>
 </dd>
 <dt>callback<span class="classifier"><cite>Callable</cite></span></dt><dd><p>The function which is called when the option is encountered by
@@ -908,8 +878,8 @@ provided, <code class="docutils literal notranslate"><span class="pre">clipp</sp
 </dd>
 </dl>
 </section>
-<section id="id43">
-<h1>Raises<a class="headerlink" href="#id43" title="Link to this heading">#</a></h1>
+<section id="id42">
+<h1>Raises<a class="headerlink" href="#id42" title="Link to this heading">#</a></h1>
 <dl class="simple">
 <dt><code class="docutils literal notranslate"><span class="pre">ValueError</span></code> :</dt><dd><p><code class="docutils literal notranslate"><span class="pre">alias</span></code> is not a valid short or long alias string.</p>
 </dd>
@@ -924,10 +894,10 @@ provided, <code class="docutils literal notranslate"><span class="pre">clipp</sp
 <p>The parser does not evaluate command-line arguments for flags.
 Instead, their values are predetermined by their <code class="docutils literal notranslate"><span class="pre">const</span></code> and
 <code class="docutils literal notranslate"><span class="pre">default</span></code> values.</p>
-<section id="id44">
-<h1>Parameters<a class="headerlink" href="#id44" title="Link to this heading">#</a></h1>
+<section id="id43">
+<h1>Parameters<a class="headerlink" href="#id43" title="Link to this heading">#</a></h1>
 <dl>
-<dt><a href="#id45"><span class="problematic" id="id46">*</span></a>aliases<span class="classifier"><cite>str</cite></span></dt><dd><p>The various aliases which can be used to invoke the option from the
+<dt><a href="#id44"><span class="problematic" id="id45">*</span></a>aliases<span class="classifier"><cite>str</cite></span></dt><dd><p>The various aliases which can be used to invoke the option from the
 command-line.</p>
 </dd>
 <dt>dest<span class="classifier"><cite>str</cite> optional</span></dt><dd><p>Alternative name for the option, used as the option’s key in the
@@ -951,8 +921,8 @@ Sub-commands can override universal options of their parents.</p>
 </dd>
 </dl>
 </section>
-<section id="id47">
-<h1>Raises<a class="headerlink" href="#id47" title="Link to this heading">#</a></h1>
+<section id="id46">
+<h1>Raises<a class="headerlink" href="#id46" title="Link to this heading">#</a></h1>
 <dl class="simple">
 <dt><code class="docutils literal notranslate"><span class="pre">ValueError</span></code> :</dt><dd><p><code class="docutils literal notranslate"><span class="pre">alias</span></code> is not a valid short or long alias string.</p>
 </dd>
@@ -964,10 +934,10 @@ Sub-commands can override universal options of their parents.</p>
 <dt class="sig sig-object py" id="clipp.__init__.OptionGroup.add_option">
 <span class="sig-name descname"><span class="pre">add_option</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">aliases</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dest</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">quota</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">choices</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">()</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">default</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">const</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dtype</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">action</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">help</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">usage</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">required</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_global</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#clipp.__init__.OptionGroup.add_option" title="Link to this definition">#</a></dt>
 <dd><p>Add a non-positional option to the group.</p>
-<section id="id48">
-<h1>Parameters<a class="headerlink" href="#id48" title="Link to this heading">#</a></h1>
+<section id="id47">
+<h1>Parameters<a class="headerlink" href="#id47" title="Link to this heading">#</a></h1>
 <dl>
-<dt><a href="#id49"><span class="problematic" id="id50">*</span></a>aliases<span class="classifier"><cite>str</cite></span></dt><dd><p>The various aliases which can be used to invoke the option from the
+<dt><a href="#id48"><span class="problematic" id="id49">*</span></a>aliases<span class="classifier"><cite>str</cite></span></dt><dd><p>The various aliases which can be used to invoke the option from the
 command-line.</p>
 </dd>
 <dt>dest<span class="classifier"><cite>str</cite> optional</span></dt><dd><p>Alternative name for the option, used as the option’s key in the
@@ -978,7 +948,7 @@ other in the namespace, which may or may not be desired.</p>
 <dt>quota<span class="classifier">{<cite>int</cite>, ‘+’, ‘*’}, default 1</span></dt><dd><p>The number of arguments which the parser will attempt to consume.</p>
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">int</span></code>: Consume exactly <code class="docutils literal notranslate"><span class="pre">quota</span></code> arguments.</p></li>
-<li><p><a href="#id51"><span class="problematic" id="id52">*</span></a>: Consume zero or more arguments (greedy).</p></li>
+<li><p><a href="#id50"><span class="problematic" id="id51">*</span></a>: Consume zero or more arguments (greedy).</p></li>
 <li><p>+: Consume one or more arguments (greedy).</p></li>
 </ul>
 </dd>
@@ -1024,8 +994,8 @@ Sub-commands can override global options of their parents.</p>
 </dd>
 </dl>
 </section>
-<section id="id53">
-<h1>Raises<a class="headerlink" href="#id53" title="Link to this heading">#</a></h1>
+<section id="id52">
+<h1>Raises<a class="headerlink" href="#id52" title="Link to this heading">#</a></h1>
 <dl class="simple">
 <dt><code class="docutils literal notranslate"><span class="pre">ValueError</span></code> :</dt><dd><ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">alias</span></code> is not a valid short or long alias string.</p></li>
@@ -1053,8 +1023,8 @@ group being included has a mutually exclusive group comprised of –foo
 and –bar, but only –bar is included, then –bar will lose its status
 as a mutually exclusive option. The same rule applies to dependent
 groups.</p>
-<section id="id54">
-<h1>Parameters<a class="headerlink" href="#id54" title="Link to this heading">#</a></h1>
+<section id="id53">
+<h1>Parameters<a class="headerlink" href="#id53" title="Link to this heading">#</a></h1>
 <dl>
 <dt>option_group<span class="classifier"><cite>OptionGroup</cite></span></dt><dd><p>The group containing the options to be added.</p>
 </dd>
@@ -1063,8 +1033,8 @@ added. If no list is provided, all options will be added.</p>
 </dd>
 </dl>
 </section>
-<section id="id55">
-<h1>Raises<a class="headerlink" href="#id55" title="Link to this heading">#</a></h1>
+<section id="id54">
+<h1>Raises<a class="headerlink" href="#id54" title="Link to this heading">#</a></h1>
 <dl class="simple">
 <dt><code class="docutils literal notranslate"><span class="pre">KeyError</span></code> :</dt><dd><p>One or more of the options already exists in the group or has an
 alias which conflicts with an option which has already been added.</p>
@@ -1077,16 +1047,16 @@ alias which conflicts with an option which has already been added.</p>
 <dt class="sig sig-object py" id="clipp.__init__.OptionGroup.remove">
 <span class="sig-name descname"><span class="pre">remove</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">option_name</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#clipp.__init__.OptionGroup.remove" title="Link to this definition">#</a></dt>
 <dd><p>Remove an option from the command.</p>
-<section id="id56">
-<h1>Parameters<a class="headerlink" href="#id56" title="Link to this heading">#</a></h1>
+<section id="id55">
+<h1>Parameters<a class="headerlink" href="#id55" title="Link to this heading">#</a></h1>
 <dl>
 <dt>option_name<span class="classifier"><cite>str</cite></span></dt><dd><p>The name of the option to be removed. If the option has multiple
 aliases, the name can be any one of those aliases.</p>
 </dd>
 </dl>
 </section>
-<section id="id57">
-<h1>Raises<a class="headerlink" href="#id57" title="Link to this heading">#</a></h1>
+<section id="id56">
+<h1>Raises<a class="headerlink" href="#id56" title="Link to this heading">#</a></h1>
 <dl class="simple">
 <dt><code class="docutils literal notranslate"><span class="pre">KeyError</span></code> :</dt><dd><p><code class="docutils literal notranslate"><span class="pre">name</span></code> is recognized by the command.</p>
 </dd>
@@ -1119,8 +1089,8 @@ local options.</p>
 <dt class="sig sig-object py" id="clipp.__init__.fill_paragraph">
 <span class="sig-name descname"><span class="pre">fill_paragraph</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">text</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">width</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">70</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">initial_indent</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">subsequent_indent</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#clipp.__init__.fill_paragraph" title="Link to this definition">#</a></dt>
 <dd><p>Multi-line text fill which retains leading indentation for each line.</p>
-<section id="id58">
-<h1>Parameters<a class="headerlink" href="#id58" title="Link to this heading">#</a></h1>
+<section id="id57">
+<h1>Parameters<a class="headerlink" href="#id57" title="Link to this heading">#</a></h1>
 <dl>
 <dt>text<span class="classifier"><cite>str</cite></span></dt><dd><p>The text to be filled (wrapped).</p>
 </dd>
