@@ -738,7 +738,7 @@ class FastFlag(Flag):
         self.callback = callback
 
 
-class OptionGroup:
+class _OptionGroup:
     """
     An option group is a simple container class for storing options. Option
     groups can be used to group options that share similar characterstics or
@@ -747,9 +747,14 @@ class OptionGroup:
     group. Option groups help reduce code repetition and facilitate code re-use.
     """
 
-    def __init__(self):
+    def __init__(self, parent: Optional[_OptionGroup] = None):
+        self._parent = parent
+        if parent is None:
+            self._global_opts = Polymap()
+        else:
+            self._global_opts = self._parent._global_opts
+
         self._local_opts = Polymap()
-        self._global_opts = Polymap()
         self._opts = ChainMap(self._local_opts, self._global_opts)
         self._dependent_keys = SetFamily()
         self._mutex_keys = SetFamily()
@@ -1236,7 +1241,13 @@ class OptionGroup:
         dest.add(keys)
 
 
-class Command(OptionGroup):
+class OptionGroup(_OptionGroup):
+
+    def __init__(self):
+        super().__init__()
+
+
+class _Command(_OptionGroup):
     """
     Container for storing user-defined options and sub-commands. Uses
     stored options and sub-commands to generate rules which dictate how
@@ -1272,8 +1283,9 @@ class Command(OptionGroup):
             usage: str = "",
             help: str = "",
             version_info: str = "",
+            parent: Optional[_Command] = None,
             ):
-        super().__init__()
+        super().__init__(parent=parent)
         if name:
             self.name = name
         else:
@@ -1858,26 +1870,36 @@ class Command(OptionGroup):
         return Namespace(gns, lns, extra)
 
 
-class Subcommand(Command):
+class Command(_Command):
+
+    def __init__(
+            self,
+            name: str = "",
+            prologue: str = "",
+            epilogue: str = "",
+            usage: str = "",
+            help: str = "",
+            version_info: str = "",
+            ):
+        super().__init__(name, prologue, epilogue, usage, help, version_info)
+
+
+class Subcommand(_Command):
     # The name of the parent command isn't ever evaluated by the parser or
     # the pre-processor, but for sub-commands, the name is processed,
     # so it must be a valid positional name which cannot be misidentified as a
     # flag.
     name = PositionalName()
-    # These options must reference the corresponding attribute of the parent.
-    _global_opts = Reference("_parent")
-    _namespaces = Reference("_parent")
 
     def __init__(
             self,
             *args,
-            parent: Command,
+            parent: _Command,
             dest: Optional[str] = None,
             **kwargs,
             ):
-        self._parent = parent
         self._dest = dest
-        super().__init__(*args, **kwargs)
+        super().__init__(*args, parent=parent, **kwargs)
 
     def _set_namespace_id(self) -> None:
         nsid = self._dest if self._dest else self.name
@@ -2154,6 +2176,7 @@ class Parser:
 
     def __init__(self, command: Command | Subcommand):
         self.command = command
+        print(self.command.name)
 
     @staticmethod
     def _throw_unknown_option_error(token: str) -> None:
