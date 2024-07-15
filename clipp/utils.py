@@ -153,10 +153,10 @@ class Polymap(dict):
             return True
         return item in self._keymap.keys()
 
-    def keys(self):
-        return self._keymap.keys()
+    def keys(self) -> set:
+        return self._keymap.values() | super().keys()
 
-    def items(self):
+    def items(self) -> tuple:
         return ((k, self[k]) for k in self.keys())
 
     def update(self, mapping: Optional[Mapping] = None, /, **kwargs) -> None:
