@@ -1067,7 +1067,7 @@ class _OptionGroup:
             ``name`` is recognized by the command.
         """
         # todo: break this out into separate function. We need one function
-        #  for retrieving the option, and one the removal logic. This way,
+        #  for retrieving the option, and one for the removal logic. This way,
         #  subclasses only need to override the option retrieval method then
         #  call `super()._private_remove_method`.
         if option_name in self._opts:
@@ -2176,7 +2176,6 @@ class Parser:
 
     def __init__(self, command: Command | Subcommand):
         self.command = command
-        print(self.command.name)
 
     @staticmethod
     def _throw_unknown_option_error(token: str) -> None:
