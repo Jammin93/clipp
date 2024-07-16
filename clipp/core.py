@@ -1836,10 +1836,9 @@ class _Command(_OptionGroup):
                 opt = self._params[key]
 
             opt._validate(values)
-            if not values and isinstance(opt, Parameter):
-                return processed
-
-            if not values and opt.has_const:
+            if not values and opt._profile == "?":
+                processed[opt.altname] = opt.default
+            elif not values and opt.has_const:
                 processed[opt.altname] = opt.const
             elif opt.quota == 1:
                 processed[opt.altname] = opt.action(values[0])
